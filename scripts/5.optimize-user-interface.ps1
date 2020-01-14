@@ -39,9 +39,6 @@ Set-ItemProperty "HKCU:\Control Panel\Accessibility\ToggleKeys" "Flags" "58"
 Write-Output "Disable Edge desktop shortcut on new profiles"
 New-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer -Name DisableEdgeDesktopShortcutCreation -PropertyType DWORD -Value 1
 
-Write-Output "Restoring old volume slider"
-force-mkdir "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\MTCUVC"
-Set-ItemProperty "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\MTCUVC" "EnableMtcUvc" 0
 
 Write-Output "Setting folder view options"
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "Hidden" 1

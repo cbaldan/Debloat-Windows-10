@@ -6,8 +6,6 @@ $services = @(
     "diagnosticshub.standardcollector.service" # Microsoft (R) Diagnostics Hub Standard Collector Service
     "DiagTrack"                                # Diagnostics Tracking Service
     "dmwappushservice"                         # WAP Push Message Routing Service (see known issues)
-    "HomeGroupListener"                        # HomeGroup Listener
-    "HomeGroupProvider"                        # HomeGroup Provider
     "lfsvc"                                    # Geolocation Service
     "MapsBroker"                               # Downloaded Maps Manager
     "NetTcpPortSharing"                        # Net.Tcp Port Sharing Service
@@ -15,11 +13,8 @@ $services = @(
     "RemoteRegistry"                           # Remote Registry
     "SharedAccess"                             # Internet Connection Sharing (ICS)
     "TrkWks"                                   # Distributed Link Tracking Client
-    "WbioSrvc"                                 # Windows Biometric Service (required for Fingerprint reader / facial detection)
-    #"WlanSvc"                                 # WLAN AutoConfig
+   #"WbioSrvc"                                 # Windows Biometric Service (required for Fingerprint reader / facial detection)
     "WMPNetworkSvc"                            # Windows Media Player Network Sharing Service
-    "wscsvc"                                   # Windows Security Center Service
-    #"WSearch"                                 # Windows Search
     "XblAuthManager"                           # Xbox Live Auth Manager
     "XblGameSave"                              # Xbox Live Game Save Service
     "XboxNetApiSvc"                            # Xbox Live Networking Service
