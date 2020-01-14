@@ -1,7 +1,16 @@
+# WARNING:
+# It's MANDATORY that the PowerShell that will run the scripts is launched
+# as Administrator, else, it will fail!!!
+# ==================================================
 # Run these in the prompt below to enalbe scripting
 #
 # Set-ExecutionPolicy Unrestricted -Scope CurrentUser
 # ls -Recurse *.ps*1 | Unblock-File
+#
+# After Windows 10 1909, OneDrive is installed after the user
+# made the first login, and it seems to be downloaded from the internet.
+# Make sure the OneDrive Setup process is complete before executing the
+# script.
 
 Write-Output "Starting Windows 10 Cleanup`n"
 
