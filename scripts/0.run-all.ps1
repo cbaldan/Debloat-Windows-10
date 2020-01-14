@@ -1,3 +1,8 @@
+# Run these in the prompt below to enalbe scripting
+#
+# Set-ExecutionPolicy Unrestricted -Scope CurrentUser
+# ls -Recurse *.ps*1 | Unblock-File
+
 Write-Output "Starting Windows 10 Cleanup`n"
 
 $lineSeparator="===================="
