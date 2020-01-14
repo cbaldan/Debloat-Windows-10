@@ -6,7 +6,6 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\take-own.psm1
 
 Write-Output "Kill OneDrive process"
 taskkill.exe /F /IM "OneDrive.exe"
-taskkill.exe /F /IM "explorer.exe"
 
 Write-Output "Remove OneDrive"
 if (Test-Path "$env:systemroot\System32\OneDriveSetup.exe") {
@@ -46,14 +45,12 @@ reg unload "hku\Default"
 Write-Output "Removing startmenu entry"
 Remove-Item -Force -ErrorAction SilentlyContinue "$env:userprofile\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OneDrive.lnk"
 
-Write-Output "Removing scheduled task"
-Get-ScheduledTask -TaskPath '\' -TaskName 'OneDrive*' -ea SilentlyContinue | Unregister-ScheduledTask -Confirm:$false
-
 Write-Output "Restarting explorer"
+taskkill.exe /F /IM "explorer.exe"
 Start-Process "explorer.exe"
 
 Write-Output "Waiting for explorer to complete loading"
-Start-Sleep 10
+Start-Sleep 5
 
 Write-Output "Removing additional OneDrive leftovers"
 foreach ($item in (Get-ChildItem "$env:WinDir\WinSxS\*onedrive*")) {
