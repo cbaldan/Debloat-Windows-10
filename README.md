@@ -14,6 +14,7 @@ To see the original readme.md go the original project.
 Enable execution of PowerShell scripts:
 
     Set-ExecutionPolicy Unrestricted -Scope CurrentUser
+    ls -Recurse *.ps*1 | Unblock-File
 
 After you are done, it's advisable to disable script execution for security purposes:
 
