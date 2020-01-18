@@ -8,6 +8,5 @@ foreach ($directory in (Get-ChildItem "$env:WinDir\WinSxS\*onedrive*")) {
     &cmd.exe /c rmdir /S /Q $directory.FullName
 }
 
-taskkill.exe /F /IM "OneDrive.exe"
 &cmd.exe /c rmdir /S /Q $env:LOCALAPPDATA\Microsoft\OneDrive
 
