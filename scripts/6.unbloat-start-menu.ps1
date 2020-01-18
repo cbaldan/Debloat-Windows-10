@@ -33,6 +33,8 @@ Start-Sleep -s 1
 $wshell = New-Object -ComObject wscript.shell; $wshell.SendKeys('^{ESCAPE}')
 Start-Sleep -s 2
 
+# To make the clean start menu default for current and all future users, remove all lines below here
+
 #Enable the ability to pin items again by disabling "LockedStartLayout"
 foreach ($regAlias in $regAliases){
     $basePath = $regAlias + ":\SOFTWARE\Policies\Microsoft\Windows"
