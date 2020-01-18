@@ -29,9 +29,9 @@ foreach ($regAlias in $regAliases){
 
 #Restart Explorer, open the start menu (necessary to load the new layout), and give it a few seconds to process
 Stop-Process -name explorer
-Start-Sleep -s 5
+Start-Sleep -s 1
 $wshell = New-Object -ComObject wscript.shell; $wshell.SendKeys('^{ESCAPE}')
-Start-Sleep -s 5
+Start-Sleep -s 2
 
 #Enable the ability to pin items again by disabling "LockedStartLayout"
 foreach ($regAlias in $regAliases){
