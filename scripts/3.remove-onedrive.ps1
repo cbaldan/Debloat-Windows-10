@@ -50,7 +50,7 @@ taskkill.exe /F /IM "explorer.exe"
 Start-Process "explorer.exe"
 
 Write-Output "Waiting for explorer to complete loading"
-Start-Sleep 2
+Start-Sleep 20
 
 Write-Output "Removing additional OneDrive leftovers"
 foreach ($directory in (Get-ChildItem "$env:WinDir\WinSxS\*onedrive*")) {
@@ -58,5 +58,7 @@ foreach ($directory in (Get-ChildItem "$env:WinDir\WinSxS\*onedrive*")) {
     &cmd.exe /c rmdir /S /Q $directory.FullName
 }
 
+taskkill.exe /F /IM "OneDrive.exe"
+Takeown-Folder $env:LOCALAPPDATA\Microsoft\OneDrive
 &cmd.exe /c rmdir /S /Q $env:LOCALAPPDATA\Microsoft\OneDrive
 
