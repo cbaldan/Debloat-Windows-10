@@ -58,3 +58,5 @@ foreach ($directory in (Get-ChildItem "$env:WinDir\WinSxS\*onedrive*")) {
     &cmd.exe /c rmdir /S /Q $directory.FullName
 }
 
+&cmd.exe /c rmdir /S /Q $env:LOCALAPPDATA\Microsoft\OneDrive
+
