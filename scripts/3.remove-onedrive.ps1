@@ -53,24 +53,8 @@ Write-Output "Waiting for explorer to complete loading"
 Start-Sleep 2
 
 Write-Output "Removing additional OneDrive leftovers"
-#foreach ($item in (Get-ChildItem "$env:WinDir\WinSxS\*onedrive*")) {
-#    Takeown-Folder $item.FullName
-#    Remove-Item -Recurse -Force $item.FullName
-#}
-
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\take-own.psm1
-
-
-Write-Output "Removing additional OneDrive leftovers"
-foreach ($item in (Get-ChildItem "$env:WinDir\WinSxS\*onedrive*")) {
-    foreach ($item2 in (Get-ChildItem -Path "$item\\*" -Recurse)) {
-        Start-Sleep 1
-        Takeown-Folder $item2.FullName
-        Remove-Item -Recurse -Force $item2.FullName
-    }
-
-    Start-Sleep 1
-    Takeown-Folder $item.FullName
-    Remove-Item -Recurse -Force $item.FullName
+foreach ($directory in (Get-ChildItem "$env:WinDir\WinSxS\*onedrive*")) {
+    Takeown-Folder $directory.FullName
+    &cmd.exe /c rmdir /S /Q $directory.FullName
 }
 
