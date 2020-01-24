@@ -29,9 +29,8 @@ foreach ($regAlias in $regAliases){
 
 #Restart Explorer, open the start menu (necessary to load the new layout), and give it a few seconds to process
 Stop-Process -name explorer
-Start-Sleep -s 1
+Start-Sleep -s 3
 $wshell = New-Object -ComObject wscript.shell; $wshell.SendKeys('^{ESCAPE}')
-Start-Sleep -s 2
 
 # To make the clean start menu default for current and all future users, remove all lines below here
 
