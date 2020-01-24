@@ -12,6 +12,8 @@
 # Make sure the OneDrive Setup process is complete before executing the
 # script.
 
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\restart-pc-popup.psm1
+
 Write-Output "Starting Windows 10 Cleanup`n"
 
 $lineSeparator="===================="
@@ -36,3 +38,5 @@ Write-Output ">> Optimizing Start Menu"$lineSeparator
 
 Write-Output ">> Enabling the administrator account"$lineSeparator
 &($PSScriptRoot+"\7.enable-administrator-acccount.ps1")
+
+RestartComputerPopup
