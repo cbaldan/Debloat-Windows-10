@@ -6,7 +6,7 @@
 
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\logoff-popup.psm1
 
-$lineSeparator="============================"
+$lineSeparator="====================================="
 
 Write-Output "Starting Windows 10 Cleanup`n"
 
@@ -19,6 +19,9 @@ Stop-Service wuauserv
 
 Write-Output ">> Disabling services"$lineSeparator
 &($PSScriptRoot+"\2.disable-services.ps1")
+
+Write-Output ">> Disabling background apps"$lineSeparator
+&($PSScriptRoot+"\2.1.disable-background-apps.ps1")
 
 Write-Output ">> Optmizing Windows Update"$lineSeparator
 &($PSScriptRoot+"\3.optimize-windows-update.ps1")
