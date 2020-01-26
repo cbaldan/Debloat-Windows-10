@@ -35,6 +35,9 @@ Write-Output ">> Removing Default Apps"$lineSeparator
 Write-Output ">> Optimizing User Interface"$lineSeparator
 &($PSScriptRoot+"\6.optimize-user-interface.ps1")
 
+Write-Output ">> Taskbar cleanup"$lineSeparator
+&($PSScriptRoot+"\6.1.cleanup-taskbar.ps1")
+
 Write-Output ">> Optimizing Start Menu"$lineSeparator
 &($PSScriptRoot+"\7.unbloat-start-menu.ps1")
 
