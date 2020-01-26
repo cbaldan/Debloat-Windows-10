@@ -4,7 +4,7 @@
 # ===========
 # Invokes the execution of all scripts at once.
 
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\restart-pc-popup.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\logoff-popup.psm1
 
 $lineSeparator="============================"
 
@@ -38,4 +38,4 @@ Write-Output ">> Optimizing Start Menu"$lineSeparator
 Write-Output ">> Enabling the administrator account"$lineSeparator
 &($PSScriptRoot+"\7.enable-administrator-acccount.ps1")
 
-RestartComputerPopup
+LogoffPopup
