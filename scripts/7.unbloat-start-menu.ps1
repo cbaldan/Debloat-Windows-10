@@ -33,8 +33,12 @@ foreach ($regAlias in $regAliases){
     Set-ItemProperty -Path $keyPath -Name "StartLayoutFile" -Value "C:\Windows\StartLayout.xml"
 }
 
-# To make the clean start menu default for current and all future users, remove the lines between
-# the lines
+#Restart Explorer, open the start menu (necessary to load the new layout), and give it a few seconds to process
+Stop-Process -name explorer
+Start-Sleep -s 3
+$wshell = New-Object -ComObject wscript.shell; $wshell.SendKeys('^{ESCAPE}')
+
+# To make the clean start menu default for current and all future users, remove all lines below here
 # ==================================================================================================
 
 #Enable the ability to pin items again by disabling "LockedStartLayout"
@@ -44,12 +48,6 @@ foreach ($regAlias in $regAliases){
     Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 0
 }
 
-# Delete the layout file
-Remove-Item C:\Windows\StartLayout.xml
-
-# ==================================================================================================
-
-#Restart Explorer, open the start menu (necessary to load the new layout), and give it a few seconds to process
+#Restart Explorer and delete the layout file
 Stop-Process -name explorer
-Start-Sleep -s 3
-$wshell = New-Object -ComObject wscript.shell; $wshell.SendKeys('^{ESCAPE}')
+Remove-Item C:\Windows\StartLayout.xml
