@@ -4,7 +4,7 @@
 # ===========
 # Invokes the execution of all scripts at once.
 
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\logoff-popup.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\restart-dialog.psm1
 
 $lineSeparator="====================================="
 
@@ -43,3 +43,5 @@ Write-Output ">> Enabling the administrator account"$lineSeparator
 
 Write-Output ">> Removing OneDrive install files"$lineSeparator
 &($PSScriptRoot+"\9.remove-onedrive-leftovers.ps1")
+
+Restart-Dialog
