@@ -14,6 +14,9 @@ Write-Output ">> Unblocking Scripts"$lineSeparator
 cd $PSScriptRoot
 ls -Recurse *.ps*1 | Unblock-File
 
+Write-Output ">> Stopping Windows Update Service"$lineSeparator
+Stop-Service wuauserv
+
 Write-Output ">> Disabling services"$lineSeparator
 &($PSScriptRoot+"\1.disable-services.ps1")
 
