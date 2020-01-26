@@ -1,20 +1,18 @@
 #Requires -RunAsAdministrator
-# ==================================================
-# Run these in the prompt below to enalbe scripting
-#
-# Set-ExecutionPolicy Unrestricted -Scope CurrentUser
-# ls -Recurse *.ps*1 | Unblock-File
-#
-# After Windows 10 1909, OneDrive is installed after the user
-# made the first login, and it seems to be downloaded from the internet.
-# Make sure the OneDrive Setup process is complete before executing the
-# script.
+
+# Description
+# ===========
+# Invokes the execution of all scripts at once.
 
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\restart-pc-popup.psm1
 
+$lineSeparator="============================"
+
 Write-Output "Starting Windows 10 Cleanup`n"
 
-$lineSeparator="===================="
+Write-Output ">> Unblocking Scripts"$lineSeparator
+cd $PSScriptRoot
+ls -Recurse *.ps*1 | Unblock-File
 
 Write-Output ">> Disabling services"$lineSeparator
 &($PSScriptRoot+"\1.disable-services.ps1")

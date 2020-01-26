@@ -3,6 +3,10 @@
 # Description
 # ===========
 # This script will remove and disable OneDrive integration.
+# After Windows 10 1909, OneDrive is installed after the user
+# made the first login, and it seems to be downloaded from the internet.
+# Make sure the OneDrive Setup process is complete - you don't see it in
+# Taks Manager - before executing thescript.
 
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\force-mkdir.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\take-own.psm1
