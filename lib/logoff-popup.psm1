@@ -6,11 +6,12 @@ function LogoffPopup() {
 
 	switch  ($choice) {
 	'Yes' {
-		[Microsoft.VisualBasic.Interaction]::MsgBox('You will be signed out now.`nLog back in and execute script #8,', 'OkOnly,SystemModal,Information', 'Sign Out')
+        $msg = "You will be signed out now.`nLog back in and execute script #8,"
+		[Microsoft.VisualBasic.Interaction]::MsgBox($msg, 'OkOnly,SystemModal,Information', 'Sign Out')
         &cmd.exe /c shutdown -L
 	}
     'No' {
-        $msg = "It is highly advisable to logoff now.`nScript #8 can only be executed after logoff."
+        $msg = "It is highly advisable to Sign Out now.`nScript #8 can only be executed after the current session is terminated."
         [Microsoft.VisualBasic.Interaction]::MsgBox($msg, 'OkOnly,SystemModal,Information', 'Sign Out')
     }
   }
