@@ -11,11 +11,15 @@ To see the original readme.md go the original project.
 
 ## Execution
 
-Enable execution of PowerShell scripts:
+First, you must enable execution of PowerShell scripts:
 
     Set-ExecutionPolicy Unrestricted -Scope CurrentUser
-    ls -Recurse *.ps*1 | Unblock-File
 
+Then, execute the following script:
+
+    0.unblock-and-run-all.ps1
+
+It will unblock the scripts for your convenience, and run them all at once.
 After you are done, it's advisable to disable script execution for security purposes:
 
     Set-ExecutionPolicy Restricted -Scope CurrentUser

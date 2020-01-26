@@ -3,8 +3,7 @@
 # Description
 # ===========
 # This script removes OneDrive leftover files
-# It has to executed after script 3.remove-onedrive.ps1 has been executed,
-# logoff and then login back in
+# It has to executed after long after script 4 to allow the uninstall process to complete
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\take-own.psm1
 
 Write-Output "Removing OneDrive leftovers"
