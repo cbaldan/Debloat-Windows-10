@@ -29,9 +29,6 @@ Write-Output ">> Optmizing Windows Update"$lineSeparator
 Write-Output ">> Removing OneDrive"$lineSeparator
 &($PSScriptRoot+"\4.remove-onedrive.ps1")
 
-Write-Output ">> Removing Default Apps"$lineSeparator
-&($PSScriptRoot+"\5.remove-default-apps.ps1")
-
 Write-Output ">> Optimizing User Interface"$lineSeparator
 &($PSScriptRoot+"\6.optimize-user-interface.ps1")
 
@@ -43,6 +40,9 @@ Write-Output ">> Optimizing Start Menu"$lineSeparator
 
 Write-Output ">> Enabling the administrator account"$lineSeparator
 &($PSScriptRoot+"\8.enable-administrator-acccount.ps1")
+
+Write-Output ">> Removing Default Apps"$lineSeparator
+&($PSScriptRoot+"\5.remove-default-apps.ps1")
 
 Write-Output ">> Removing OneDrive install files"$lineSeparator
 &($PSScriptRoot+"\9.remove-onedrive-leftovers.ps1")
