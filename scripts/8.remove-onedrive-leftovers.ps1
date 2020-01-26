@@ -1,3 +1,7 @@
+#Requires -RunAsAdministrator
+
+# Description
+# ===========
 # This script removes OneDrive leftover files
 # It has to executed after script 3.remove-onedrive.ps1 has been executed,
 # logoff and then login back in
@@ -9,4 +13,3 @@ foreach ($directory in (Get-ChildItem "$env:WinDir\WinSxS\*onedrive*")) {
 }
 
 &cmd.exe /c rmdir /S /Q $env:LOCALAPPDATA\Microsoft\OneDrive
-

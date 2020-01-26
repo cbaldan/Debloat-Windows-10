@@ -1,4 +1,7 @@
-#   Description
+#Requires -RunAsAdministrator
+
+# Description
+# ===========
 # This script will apply MarkC's mouse acceleration fix (for 100% DPI) and
 # disable some accessibility features regarding keyboard input.  Additional
 # some UI elements will be changed.

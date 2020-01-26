@@ -1,5 +1,9 @@
-# For increased security, I enable the built-in administrator
-# account in Windows and demote the user account to Standard user
+#Requires -RunAsAdministrator
+
+# Description
+# ===========
+# For increased security, I enable the built-in Administrator
+# account in Windows and demote the user account to Standard User
 
 $adminUser = Get-LocalUser -Name "Admin*"
 $pwd = ConvertTo-SecureString "*123" -AsPlainText -Force

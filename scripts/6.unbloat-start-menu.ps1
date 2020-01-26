@@ -1,4 +1,10 @@
-﻿#Delete layout file if it already exists
+﻿#Requires -RunAsAdministrator
+
+# Description
+# ===========
+# Removes all titles of the start menu.
+
+#Delete layout file if it already exists
 If(Test-Path C:\Windows\StartLayout.xml)
 {
     Remove-Item C:\Windows\StartLayout.xml
@@ -33,6 +39,7 @@ Start-Sleep -s 3
 $wshell = New-Object -ComObject wscript.shell; $wshell.SendKeys('^{ESCAPE}')
 
 # To make the clean start menu default for current and all future users, remove all lines below here
+# ==================================================================================================
 
 #Enable the ability to pin items again by disabling "LockedStartLayout"
 foreach ($regAlias in $regAliases){

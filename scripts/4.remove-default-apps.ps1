@@ -1,4 +1,7 @@
-#   Description:
+#Requires -RunAsAdministrator
+
+# Description
+# ===========
 # This script removes unwanted Apps that come with Windows. If you  do not want
 # to remove certain Apps comment out the corresponding lines below.
 

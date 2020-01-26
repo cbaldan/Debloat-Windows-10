@@ -1,6 +1,4 @@
-# WARNING:
-# It's MANDATORY that the PowerShell that will run the scripts is launched
-# as Administrator, else, it will fail!!!
+#Requires -RunAsAdministrator
 # ==================================================
 # Run these in the prompt below to enalbe scripting
 #

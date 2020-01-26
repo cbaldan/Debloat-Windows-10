@@ -1,4 +1,7 @@
-#   Description:
+#Requires -RunAsAdministrator
+
+# Description
+# ===========
 # This script optimizes Windows updates by disabling automatic download and
 # seeding updates to other computers.
 #

@@ -1,4 +1,7 @@
-#   Description:
+#Requires -RunAsAdministrator
+
+# Description
+# ===========
 # This script will remove and disable OneDrive integration.
 
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\force-mkdir.psm1

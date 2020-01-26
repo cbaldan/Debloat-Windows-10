@@ -1,4 +1,7 @@
-#   Description:
+#Requires -RunAsAdministrator
+
+# Description
+# ===========
 # This script disables unwanted Windows services. If you do not want to disable
 # certain services comment out the corresponding lines below.
 
