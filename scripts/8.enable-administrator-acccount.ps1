@@ -13,7 +13,8 @@ Write-Output ">> Executing: $($MyInvocation.MyCommand.Name)"$lineSeparator
 
 Add-Type -AssemblyName Microsoft.VisualBasic
 
-$choice = [Microsoft.VisualBasic.Interaction]::MsgBox('Enable the Administrator account?', 'YesNo,SystemModal,Question', 'Enable admin')
+$msg="Enable the Administrator account?`n`nThe built-in admin account will be enabled and the current user will be removed from the 'Administrators' group.`n`n"
+$choice = [Microsoft.VisualBasic.Interaction]::MsgBox($msg, 'YesNo,SystemModal,Question', 'Enable admin')
 
 	switch  ($choice) {
 	'Yes'  {
@@ -25,5 +26,8 @@ $choice = [Microsoft.VisualBasic.Interaction]::MsgBox('Enable the Administrator 
         $adminUser = Get-LocalUser -Name "Admin*"
         Enable-LocalUser $adminUser
         Set-LocalUser $adminUser -Password $pwd
-           }
+
+        Add-LocalGroupMember -Group Users -Member $env:UserName
+        Remove-LocalGroupMember -Group Administrators -Member $env:UserName
+        }
     }
