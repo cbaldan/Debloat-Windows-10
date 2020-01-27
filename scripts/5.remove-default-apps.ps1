@@ -5,8 +5,11 @@
 # This script removes unwanted Apps that come with Windows. If you  do not want
 # to remove certain Apps comment out the corresponding lines below.
 
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\take-own.psm1
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\force-mkdir.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1
+
+Write-Output ">> Executing: $($MyInvocation.MyCommand.Name)"$lineSeparator
+
+#=============================================================================
 
 Write-Output "Uninstalling default apps"
 $apps = @(

@@ -4,6 +4,12 @@
 # ===========
 # Removes all titles of the start menu.
 
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1
+
+Write-Output ">> Executing: $($MyInvocation.MyCommand.Name)"$lineSeparator
+
+#=============================================================================
+
 #Delete layout file if it already exists
 If(Test-Path C:\Windows\StartLayout.xml)
 {

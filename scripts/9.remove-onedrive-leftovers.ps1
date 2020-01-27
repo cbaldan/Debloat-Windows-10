@@ -4,7 +4,12 @@
 # ===========
 # This script removes OneDrive leftover files
 # It has to executed after long after script 4 to allow the uninstall process to complete
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\take-own.psm1
+
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1
+
+Write-Output ">> Executing: $($MyInvocation.MyCommand.Name)"$lineSeparator
+
+#=============================================================================
 
 # Removing OneDrive leftovers
 foreach ($directory in (Get-ChildItem "$env:WinDir\WinSxS\*onedrive*")) {

@@ -5,6 +5,12 @@
 # For increased security, I enable the built-in Administrator
 # account in Windows and demote the user account to Standard User
 
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1
+
+Write-Output ">> Executing: $($MyInvocation.MyCommand.Name)"$lineSeparator
+
+#=============================================================================
+
 Add-Type -AssemblyName Microsoft.VisualBasic
 
 $choice = [Microsoft.VisualBasic.Interaction]::MsgBox('Enable the Administrator account?', 'YesNo,SystemModal,Question', 'Enable admin')

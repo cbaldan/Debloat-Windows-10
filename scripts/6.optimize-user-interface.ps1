@@ -6,9 +6,11 @@
 # disable some accessibility features regarding keyboard input.  Additional
 # some UI elements will be changed.
 
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\force-mkdir.psm1
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\take-own.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1
 
+Write-Output ">> Executing: $($MyInvocation.MyCommand.Name)"$lineSeparator
+
+#=============================================================================
 
 # MarkC's mouse acceleration fix
 Set-ItemProperty "HKCU:\Control Panel\Mouse" "MouseSensitivity" "10"

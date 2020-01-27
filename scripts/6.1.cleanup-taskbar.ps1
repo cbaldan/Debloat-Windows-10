@@ -4,6 +4,12 @@
 # ===========
 # Cleans up the taskbar by disabling the items below
 
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1
+
+Write-Output ">> Executing: $($MyInvocation.MyCommand.Name)"$lineSeparator
+
+#=============================================================================
+
 # Set Cortana search box hidden from taskbar
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" "SearchboxTaskbarMode" 0
 

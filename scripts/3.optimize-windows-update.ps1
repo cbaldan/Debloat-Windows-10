@@ -5,7 +5,12 @@
 # This script optimizes Windows updates by disabling automatic download and
 # seeding updates to other computers.
 #
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\force-mkdir.psm1
+
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1
+
+Write-Output ">> Executing: $($MyInvocation.MyCommand.Name)"$lineSeparator
+
+#=============================================================================
 
 # Disable seeding of updates to other computers via Group Policies
 force-mkdir "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization"
