@@ -11,6 +11,10 @@ To see the original readme.md go the original project.
 
 ## Execution
 
+**First of all**, I'd advise this script to be run only on a *clean Windows 10 instllation*, right after the installation is complete.
+Things might become a bit unstable if you run in a Windows installation that is not healthy.
+It was thoroughly tested on Windows 10 1909, with 0 errors.
+
 All statements below have to be executed in an elevated prompt.
 First, you must enable execution of PowerShell scripts:
 
