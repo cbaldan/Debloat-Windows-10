@@ -10,7 +10,7 @@
 
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1
 
-Write-Output ">> Executing: $($MyInvocation.MyCommand.Name)"$lineSeparator
+Write-Output ">> Executing: $($MyInvocation.MyCommand.Name)$(Get-Line-Separator)"
 
 #=============================================================================
 

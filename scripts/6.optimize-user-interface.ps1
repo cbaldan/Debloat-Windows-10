@@ -8,7 +8,7 @@
 
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1
 
-Write-Output ">> Executing: $($MyInvocation.MyCommand.Name)"$lineSeparator
+Write-Output ">> Executing: $($MyInvocation.MyCommand.Name)$(Get-Line-Separator)"
 
 #=============================================================================
 
@@ -38,6 +38,9 @@ Set-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" "AllowgameD
 Set-ItemProperty "HKCU:\Control Panel\Accessibility\StickyKeys" "Flags" "506"
 Set-ItemProperty "HKCU:\Control Panel\Accessibility\Keyboard Response" "Flags" "122"
 Set-ItemProperty "HKCU:\Control Panel\Accessibility\ToggleKeys" "Flags" "58"
+
+# Numlock enabled at login
+#Set-ItemProperty "HU:\.DEFAULT\Control Panel\Keyboard" "InitialKeyboardIndicators" 2
 
 # Disable Edge desktop shortcut on new profiles
 New-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer -Name DisableEdgeDesktopShortcutCreation -PropertyType DWORD -Value 1
