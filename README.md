@@ -22,7 +22,7 @@ First, you must enable execution of PowerShell scripts:
 
 Second, execute the following script:
 
-    1.run-all.ps1
+    0.unblock-and-run-all.ps1
 
 It will conveniently unblock all scripts and launch them all.
 After you are done, it's advisable to disable script execution for security purposes:
