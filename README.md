@@ -4,10 +4,9 @@ This project is a fork from [https://github.com/W4RH4WK/Debloat-Windows-10](http
 
 Why one more fork?
 
-Because I want it to be simple to run the way I like it, and doing just what I want.
-Plus, the original project looks abandoned for the past few years. Many PRs open, not a single comment on them by the author, you get the picture.
+Because I wanted to have more control over the scripts, and have it doing just what I want.
 
-To see the original readme.md go the original project.
+To see the original README.md go the original project.
 
 ## Execution
 
