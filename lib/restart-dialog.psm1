@@ -7,7 +7,6 @@ function Restart-Dialog() {
 	switch  ($choice) {
 	'Yes' {
         Restart-Computer
-	}
-
-  }
+	    }
+    }
 }

@@ -8,6 +8,13 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\restart-dialog.psm1
 
 $lineSeparator="====================================="
 
+Write-Output ">> Unblocking Scripts"$lineSeparator
+
+cd $PSScriptRoot\..
+ls -Recurse *.ps*1 | Unblock-File
+
+#=======================================================
+
 Write-Output "Starting Windows 10 Cleanup`n"
 
 Write-Output ">> Unblocking Scripts"$lineSeparator
