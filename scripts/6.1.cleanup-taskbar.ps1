@@ -13,6 +13,9 @@ Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advan
 # Remove TaskView button from taskbar
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "ShowTaskViewButton" 0
 
+# Use small buttons in Taksbar
+Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "TaskbarSmallIcons" 1
+
 # Remove People button from taskbar
 force-mkdir "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People"
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" "PeopleBand" 0
