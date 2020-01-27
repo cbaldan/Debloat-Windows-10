@@ -18,7 +18,7 @@ $choice = [Microsoft.VisualBasic.Interaction]::MsgBox('Enable the Administrator 
 	switch  ($choice) {
 	'Yes'  {
         $pwd = [Microsoft.VisualBasic.Interaction]::InputBox('Enter the Administrator account password', 'Password', '*123')
-        $pwd = ConvertTo-SecureString pwd -AsPlainText -Force
+        $pwd = ConvertTo-SecureString $pwd -AsPlainText -Force
 
         # Thanks so some nefarious W10 bug, the password has to be set
         # in a different statement, after the account has been enabled
