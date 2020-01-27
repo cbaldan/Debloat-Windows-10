@@ -2,7 +2,14 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\force-mkdir.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\take-own.psm1
 
-function Get-Line-Separator()
+$lineSeparator="`n================================================="
+
+function Print-Script-Banner($scriptName)
 {
-   return $lineSeparator="`n====================================="
+   Write-Host "`n>> Executing: $scriptName$lineSeparator"
+}
+
+function Print-Message-With-Banner($msg)
+{
+   Write-Host "`n>> $msg$lineSeparator"
 }

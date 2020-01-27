@@ -9,13 +9,13 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1
 # Preparation
 #=============================================================================
 
-Write-Output ">> Stopping Windows Update Service$(Get-Line-Separator)"
+Print-Message-With-Banner("Stopping Windows Update Service")
 Stop-Service wuauserv
 
 # Real work
 #=============================================================================
 
-Write-Output "Starting Windows 10 Cleanup$(Get-Line-Separator)"
+Print-Message-With-Banner("Starting Windows 10 Cleanup")
 
 &($PSScriptRoot+"\2.disable-services.ps1")
 &($PSScriptRoot+"\2.1.disable-background-apps.ps1")
