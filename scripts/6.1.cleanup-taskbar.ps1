@@ -18,3 +18,4 @@ force-mkdir "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\P
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" "PeopleBand" 0
 
 Stop-Process -name explorer
+Start-Sleep -s 3
