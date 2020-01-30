@@ -33,7 +33,7 @@ foreach ($regAlias in $regAliases){
     $basePath = $regAlias + ":\SOFTWARE\Policies\Microsoft\Windows"
     $keyPath = $basePath + "\Explorer" 
     IF(!(Test-Path -Path $keyPath)) { 
-        New-Item -Path $basePath -Name "Explorer"
+        New-Item -Path $basePath -Name "Explorer" | Out-Null
     }
     Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 1
     Set-ItemProperty -Path $keyPath -Name "StartLayoutFile" -Value "C:\Windows\StartLayout.xml"

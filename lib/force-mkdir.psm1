@@ -5,7 +5,7 @@
 # already present, all values within that key are purged.
 function force-mkdir($path) {
     if (!(Test-Path $path)) {
-        #Write-Host "-- Creating full path to: " $path -ForegroundColor White -BackgroundColor DarkGreen
-        New-Item -ItemType Directory -Force -Path $path
+        #Silently creates the new Hive in the registry
+        New-Item -ItemType Directory -Force -Path $path | Out-Null
     }
 }

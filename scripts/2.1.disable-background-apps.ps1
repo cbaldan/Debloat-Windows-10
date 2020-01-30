@@ -10,7 +10,7 @@ Print-Script-Banner($MyInvocation.MyCommand.Name)
 
 #=============================================================================
 
-New-ItemProperty HKCU:Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications -Name GlobalUserDisabled -PropertyType DWORD -Value 1
+New-ItemProperty HKCU:Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications -Name GlobalUserDisabled -PropertyType DWORD -Value 1 | Out-Null
 
 # Disable Microsoft Edge pre-launch
 force-mkdir "HKLM:SOFTWARE\Policies\Microsoft\MicrosoftEdge\Main"

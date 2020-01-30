@@ -11,7 +11,7 @@ Print-Script-Banner($MyInvocation.MyCommand.Name)
 
 #=============================================================================
 
-Write-Output "Uninstalling default apps"
+Write-Output "`nUninstalling default apps"
 $apps = @(
     # default Windows 10 apps
     "Microsoft.3DBuilder"

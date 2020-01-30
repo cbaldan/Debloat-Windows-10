@@ -27,7 +27,6 @@ $choice = [Microsoft.VisualBasic.Interaction]::MsgBox($msg, 'YesNo,SystemModal,Q
         Enable-LocalUser $adminUser
         Set-LocalUser $adminUser -Password $pwd
 
-        Add-LocalGroupMember -Group Users -Member $env:UserName
-        Remove-LocalGroupMember -Group Administrators -Member $env:UserName
+        Remove-CurrentUserAdminGroup
         }
     }
