@@ -1,6 +1,6 @@
 ﻿#Requires -RunAsAdministrator
 
-Write-Output ">> Unblocking Scripts`n"
+Write-Output "`n>> Unblocking Scripts"
 
 cd $PSScriptRoot\..
 ls -Recurse *.ps*1 | Unblock-File

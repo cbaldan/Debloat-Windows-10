@@ -17,26 +17,56 @@ Function Print-Message-With-Banner($msg)
 Function Test-KeyExists($regKeyPath) {
     $exists = Get-Item $regKeyPath -EA SilentlyContinue
 
-    If ($exists -ne $null) {
+    if ($exists -ne $null) {
         Return $true
     }
 
     Return $false
 }
 
-Function Question-UserAdminsRights() {
-    $choice = [Microsoft.VisualBasic.Interaction]::MsgBox('Is the current user in the Administrators group?', 'YesNo,SystemModal,Question', 'User admin rights check')
+Function Get-LoggedUsername() {
+    $loggedUser = get-wmiobject -Class Win32_Computersystem | select Username | foreach { -split $_."Username" } 
+    $index = $loggedUser.IndexOf('\') + 1
+    $loggedUser = $loggedUser.Substring($index)
 
-    switch  ($choice) {
-    'No' {
-        $collector = [Microsoft.VisualBasic.Interaction]::MsgBox('For these scripts to work properly, the current user *MUST* be in the Administrator group.', 'OkOnly,SystemModal,Question', 'User admin rights check')
-        Write-Host "Script execution aborted"
-        Exit
-	    }
+    return $loggedUser
+}
+
+Function Is-BuiltInAdmin() {
+
+    $result = $false
+
+    $loggedUser = Get-LoggedUsername
+    if ($loggedUser -like 'Admin*') {
+        Write-Debug "Assuming it's the built-in Administrator account: $env:UserName"
+        $result = $true
     }
+
+    Return $result
+}
+
+Function Check-AdminsRights() {
+
+    if (Is-BuiltInAdmin) {
+        Return
+    }
+
+    $loggedUser = Get-LoggedUsername
+    if (-Not($loggedUser.Equals($env:USERNAME))){
+        Write-Host "For these scripts to work properly, the current user *MUST* be in the Administrators group." -BackgroundColor Red
+        Write-Host "Script execution aborted" -BackgroundColor Red
+        Exit
+    }
+    
 }
 
 Function Remove-CurrentUserAdminGroup() {
+
+    if (Is-BuiltInAdmin) {
+        Write-Host "$env:UserName shouldn't be removed from Administrators group - removal skipped"
+        Return
+    }
+
     Add-LocalGroupMember -Group Users -Member $env:UserName
     Remove-LocalGroupMember -Group Administrators -Member $env:UserName
 }

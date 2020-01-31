@@ -9,7 +9,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1
 # Preparation
 #=============================================================================
 
-Question-UserAdminsRights
+Check-AdminsRights
 
 Print-Message-With-Banner("Stopping Windows Update Service")
 Stop-Service wuauserv

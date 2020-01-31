@@ -11,7 +11,7 @@ Print-Script-Banner($MyInvocation.MyCommand.Name)
 #=============================================================================
 
 #Delete layout file if it already exists
-If(Test-Path C:\Windows\StartLayout.xml)
+if (Test-Path C:\Windows\StartLayout.xml)
 {
     Remove-Item C:\Windows\StartLayout.xml
 }
