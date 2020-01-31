@@ -25,7 +25,6 @@ $choice = [Microsoft.VisualBasic.Interaction]::MsgBox($msg, 'YesNo,SystemModal,Q
 
         $pwd = [Microsoft.VisualBasic.Interaction]::InputBox('Enter the Administrator account password', 'Password', '*123')
         if ($pwd -ne "") {
-            Write-Host "pwd= $pwd"
             $pwd = ConvertTo-SecureString $pwd -AsPlainText -Force
             Set-LocalUser $adminUser -Password $pwd
         }
