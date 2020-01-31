@@ -11,9 +11,15 @@ Print-Script-Banner($MyInvocation.MyCommand.Name)
 
 #=============================================================================
 
+Stop-Process -name explorer
+Start-Sleep -s 3
+
 # Removing OneDrive leftovers
 foreach ($directory in (Get-ChildItem "$env:WinDir\WinSxS\*onedrive*")) {
     Remove-Item -Recurse -Force $directory.FullName
 }
 
-Remove-Item -Recurse -Force  $env:LOCALAPPDATA\Microsoft\OneDrive
+$localUserOneDriveFolder = "$env:LOCALAPPDATA\Microsoft\OneDrive"
+if (Test-Path $localUserOneDriveFolder) {
+    Remove-Item -Recurse -Force  $localUserOneDriveFolder
+}
