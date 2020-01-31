@@ -18,14 +18,17 @@ $choice = [Microsoft.VisualBasic.Interaction]::MsgBox($msg, 'YesNo,SystemModal,Q
 
 	switch  ($choice) {
 	'Yes'  {
-        $pwd = [Microsoft.VisualBasic.Interaction]::InputBox('Enter the Administrator account password', 'Password', '*123')
-        $pwd = ConvertTo-SecureString $pwd -AsPlainText -Force
-
         # Thanks so some nefarious W10 bug, the password has to be set
         # in a different statement, after the account has been enabled
         $adminUser = Get-LocalUser -Name "Admin*"
         Enable-LocalUser $adminUser
-        Set-LocalUser $adminUser -Password $pwd
+
+        $pwd = [Microsoft.VisualBasic.Interaction]::InputBox('Enter the Administrator account password', 'Password', '*123')
+        if ($pwd -ne "") {
+            Write-Host "pwd= $pwd"
+            $pwd = ConvertTo-SecureString $pwd -AsPlainText -Force
+            Set-LocalUser $adminUser -Password $pwd
+        }
 
         Remove-CurrentUserAdminGroup
         }
