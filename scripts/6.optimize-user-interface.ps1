@@ -40,7 +40,7 @@ Set-ItemProperty "HKCU:\Control Panel\Accessibility\Keyboard Response" "Flags" "
 Set-ItemProperty "HKCU:\Control Panel\Accessibility\ToggleKeys" "Flags" "58"
 
 # Numlock enabled at login
-#Set-ItemProperty "HU:\.DEFAULT\Control Panel\Keyboard" "InitialKeyboardIndicators" 2
+Set-ItemProperty "HKCU:\Control Panel\Keyboard" "InitialKeyboardIndicators" 2
 
 # Disable Edge desktop shortcut on new profiles
 $regKeyPath="HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer"
