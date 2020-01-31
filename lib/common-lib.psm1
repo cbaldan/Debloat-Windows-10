@@ -24,6 +24,12 @@ Function Test-KeyExists($regKeyPath) {
     Return $false
 }
 
+function Test-KeyValueExists($regKeyPath, $regValueName) {
+    $keyExists = (Get-Item $regKeyPath -EA Ignore).Property -contains $regValueName
+
+    return $keyExists
+}
+
 Function Get-LoggedUsername() {
     $loggedUser = get-wmiobject -Class Win32_Computersystem | select Username | foreach { -split $_."Username" } 
     $index = $loggedUser.IndexOf('\') + 1
@@ -52,7 +58,7 @@ Function Check-AdminsRights() {
     }
 
     $loggedUser = Get-LoggedUsername
-    if (-Not($loggedUser.Equals($env:USERNAME))){
+    if ($loggedUser -ne $env:USERNAME){
         Write-Host "For these scripts to work properly, the current user *MUST* be in the Administrators group." -BackgroundColor Red
         Write-Host "Script execution aborted" -BackgroundColor Red
         Exit

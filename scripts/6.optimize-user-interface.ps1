@@ -44,8 +44,10 @@ Set-ItemProperty "HKCU:\Control Panel\Keyboard" "InitialKeyboardIndicators" 2
 
 # Disable Edge desktop shortcut on new profiles
 $regKeyPath="HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer"
-if (-Not(Test-KeyExists($regKeyPath))){
-    New-ItemProperty $regKeyPath -Name DisableEdgeDesktopShortcutCreation -PropertyType DWORD -Value 1
+$regValueName="DisableEdgeDesktopShortcutCreation"
+$keyExists=Test-KeyValueExists $regKeyPath  $regValueName
+if ($keyExists -eq $false){
+    New-ItemProperty $regKeyPath -Name DisableEdgeDesktopShortcutCreation -PropertyType DWORD -Value 1 | Out-Null
 }
 
 ## Explorer cutomizations
