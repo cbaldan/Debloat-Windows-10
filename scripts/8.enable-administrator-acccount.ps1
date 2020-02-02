@@ -5,7 +5,7 @@
 # For increased security, I enable the built-in Administrator
 # account in Windows and demote the user account to Standard User
 
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1 -Force
 
 Print-Script-Banner($MyInvocation.MyCommand.Name)
 

@@ -4,18 +4,9 @@
 # ===========
 # Invokes the execution of all scripts at once.
 
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1 -Force
 
-# Preparation
-#=============================================================================
-
-Check-AdminRights
-
-Print-Message-With-Banner("Stopping Windows Update Service")
-Stop-Service wuauserv
-
-# Real work
-#=============================================================================
+Do-EnvSetup
 
 Print-Message-With-Banner("Starting Windows 10 Cleanup")
 

@@ -4,9 +4,13 @@
 # ===========
 # Removes all titles of the start menu.
 
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1 -Force
 
 Print-Script-Banner($MyInvocation.MyCommand.Name)
+
+$username = Get-LoggedUsername
+$userSid = Get-UserSid $username
+New-PSDrive HKU Registry HKEY_USERS | Out-Null
 
 #=============================================================================
 
@@ -26,11 +30,11 @@ echo "    </StartLayoutCollection>" >> C:\Windows\StartLayout.xml
 echo "  </DefaultLayoutOverride>" >> C:\Windows\StartLayout.xml
 echo "</LayoutModificationTemplate>" >> C:\Windows\StartLayout.xml
 
-$regAliases = @("HKLM", "HKCU")
+$regAliases = @("HKLM:", "HKU:\$userSid")
 
 #Assign the start layout and force it to apply with "LockedStartLayout" at both the machine and user level
 foreach ($regAlias in $regAliases){
-    $basePath = $regAlias + ":\SOFTWARE\Policies\Microsoft\Windows"
+    $basePath = $regAlias + "\SOFTWARE\Policies\Microsoft\Windows"
     $keyPath = $basePath + "\Explorer" 
     IF(!(Test-Path -Path $keyPath)) { 
         New-Item -Path $basePath -Name "Explorer" | Out-Null
@@ -49,7 +53,7 @@ $wshell = New-Object -ComObject wscript.shell; $wshell.SendKeys('^{ESCAPE}')
 
 #Enable the ability to pin items again by disabling "LockedStartLayout"
 foreach ($regAlias in $regAliases){
-    $basePath = $regAlias + ":\SOFTWARE\Policies\Microsoft\Windows"
+    $basePath = $regAlias + "\SOFTWARE\Policies\Microsoft\Windows"
     $keyPath = $basePath + "\Explorer" 
     Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 0
 }

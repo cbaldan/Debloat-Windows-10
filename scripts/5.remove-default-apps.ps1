@@ -5,9 +5,13 @@
 # This script removes unwanted Apps that come with Windows. If you  do not want
 # to remove certain Apps comment out the corresponding lines below.
 
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1 -Force
 
 Print-Script-Banner($MyInvocation.MyCommand.Name)
+
+$username = Get-LoggedUsername
+$userSid = Get-UserSid $username
+New-PSDrive HKU Registry HKEY_USERS | Out-Null
 
 #=============================================================================
 
@@ -168,7 +172,7 @@ $cdm = @(
 
 force-mkdir "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
 foreach ($key in $cdm) {
-    Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" $key 0
+    Set-ItemProperty "HKU:\$userSid\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" $key 0
 }
 
 force-mkdir "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"

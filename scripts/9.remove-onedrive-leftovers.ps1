@@ -5,7 +5,7 @@
 # This script removes OneDrive leftover files
 # It has to executed after long after script 4 to allow the uninstall process to complete
 
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1 -Force
 
 Print-Script-Banner($MyInvocation.MyCommand.Name)
 
@@ -19,7 +19,8 @@ foreach ($directory in (Get-ChildItem "$env:WinDir\WinSxS\*onedrive*")) {
     Remove-Item -Recurse -Force $directory.FullName
 }
 
-$localUserOneDriveFolder = "$env:LOCALAPPDATA\Microsoft\OneDrive"
+$userLocalAppData="$userHomeFolder\AppData\Local"
+$localUserOneDriveFolder = "$userLocalAppData\Microsoft\OneDrive"
 if (Test-Path $localUserOneDriveFolder) {
     Remove-Item -Recurse -Force  $localUserOneDriveFolder
 }

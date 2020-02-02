@@ -1,11 +1,39 @@
-﻿Import-Module -DisableNameChecking $PSScriptRoot\..\lib\restart-dialog.psm1
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\force-mkdir.psm1
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\take-own.psm1
+﻿Import-Module -DisableNameChecking $PSScriptRoot\..\lib\restart-dialog.psm1 -Force
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\force-mkdir.psm1 -Force
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\take-own.psm1 -Force
 
 $lineSeparator="`n================================================="
 
 $DebugPreference = 'SilentlyContinue'
 #$DebugPreference = 'Continue'
+
+Function Do-EnvSetup() {
+
+    try {
+        Write-Debug "Stopping Windows Update Service"
+        Stop-Service wuauserv
+
+        $username = Get-LoggedUsername
+        $userSid = Get-UserSid $username
+        $userHomeFolder = Get-UserHomeFolder $userSid
+    } catch {
+        $exception = $_
+        Write-Debug $exception
+        Write-Host "ERROR: Could init script" -BackgroundColor Red
+        Exit
+    }
+
+    Write-Debug "Env setup successfull"
+
+}
+
+Function Do-MapHKEY_USERS() {
+    Write-Debug "Creating HKU mapping"
+
+    # Creates new PS mapping to HKEY_USERS
+    # http://www.myotherpcisacloud.com/post/Accessing-HKEY_USERS-With-Powershell
+    New-PSDrive HKU Registry HKEY_USERS | Out-Null
+}
 
 Function Print-Script-Banner($scriptName)
 {
@@ -34,7 +62,7 @@ function Test-KeyValueExists($regKeyPath, $regValueName) {
 }
 
 Function Get-LoggedUsername() {
-    $loggedUser = get-wmiobject -Class Win32_Computersystem | select Username | foreach { -split $_."Username" } 
+    $loggedUser = Get-WmiObject -Class Win32_Computersystem | select Username | foreach { -split $_."Username" } 
     $index = $loggedUser.IndexOf('\') + 1
     $loggedUser = $loggedUser.Substring($index)
 
@@ -55,23 +83,6 @@ Function Is-BuiltInAdminLoggedInUser() {
     Return $result
 }
 
-Function Load-UserRegistry() {
-
-    if ($(Is-BuiltInAdminLoggedInUser)) {
-        Write-Debug "The logged-in user is the built-in Windows admin account"
-        Return
-    }
-
-    $loggedUser = Get-LoggedUsername
-    $isAdmin = Is-UserAdministrator $loggedUser
-    if ($isAdmin -eq $false){
-        $unloadUserProfile=$true
-    } else {
-        $unloadUserProfile=$fals
-    }
-
-}
-
 function Is-UserAdministrator($username) {
     $result = $true
 
@@ -84,22 +95,6 @@ function Is-UserAdministrator($username) {
 
     return $result
 }
-
-Function Check-AdminRights() {
-
-    if (Is-UserAdministrator($(Get-LoggedUsername))) {
-        Return
-    }
-
-    $loggedUser = Get-LoggedUsername
-    if ($loggedUser -ne $env:USERNAME){
-        Write-Host "For these scripts to work properly, the current user *MUST* be in the Administrators group." -BackgroundColor Red
-        Write-Host "Script execution aborted" -BackgroundColor Red
-        Exit
-    }
-    
-}
-
 
 Function Remove-CurrentUserAdminGroup() {
 
@@ -123,6 +118,14 @@ function Get-UserSid($username)
 
         return $strSID.Value
     } catch {
+        $exception = $_
+        Write-Debug $exception
         throw "Could not fetch SID for $username"
     }
+}
+
+function Get-UserHomeFolder($sid) {
+    $userProfilePathValue = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\$sid" -Name ProfileImagePath
+    $folder = $userProfilePathValue.ProfileImagePath
+    return $folder
 }

@@ -6,28 +6,32 @@
 # disable some accessibility features regarding keyboard input.  Additional
 # some UI elements will be changed.
 
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1 -Force
 
 Print-Script-Banner($MyInvocation.MyCommand.Name)
+
+$username = Get-LoggedUsername
+$userSid = Get-UserSid $username
+New-PSDrive HKU Registry HKEY_USERS | Out-Null
 
 #=============================================================================
 
 # MarkC's mouse acceleration fix
-Set-ItemProperty "HKCU:\Control Panel\Mouse" "MouseSensitivity" "10"
-Set-ItemProperty "HKCU:\Control Panel\Mouse" "MouseSpeed" "0"
-Set-ItemProperty "HKCU:\Control Panel\Mouse" "MouseThreshold1" "0"
-Set-ItemProperty "HKCU:\Control Panel\Mouse" "MouseThreshold2" "0"
-Set-ItemProperty "HKCU:\Control Panel\Mouse" "SmoothMouseXCurve" ([byte[]](0x00, 0x00, 0x00,
+Set-ItemProperty "HKU:\$userSid\Control Panel\Mouse" "MouseSensitivity" "10"
+Set-ItemProperty "HKU:\$userSid\Control Panel\Mouse" "MouseSpeed" "0"
+Set-ItemProperty "HKU:\$userSid\Control Panel\Mouse" "MouseThreshold1" "0"
+Set-ItemProperty "HKU:\$userSid\Control Panel\Mouse" "MouseThreshold2" "0"
+Set-ItemProperty "HKU:\$userSid\Control Panel\Mouse" "SmoothMouseXCurve" ([byte[]](0x00, 0x00, 0x00,
 0x00, 0x00, 0x00, 0x00, 0x00, 0xC0, 0xCC, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00,
 0x80, 0x99, 0x19, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x66, 0x26, 0x00, 0x00,
 0x00, 0x00, 0x00, 0x00, 0x33, 0x33, 0x00, 0x00, 0x00, 0x00, 0x00))
-Set-ItemProperty "HKCU:\Control Panel\Mouse" "SmoothMouseYCurve" ([byte[]](0x00, 0x00, 0x00,
+Set-ItemProperty "HKU:\$userSid\Control Panel\Mouse" "SmoothMouseYCurve" ([byte[]](0x00, 0x00, 0x00,
 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x38, 0x00, 0x00, 0x00, 0x00, 0x00,
 0x00, 0x00, 0x70, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA8, 0x00, 0x00,
 0x00, 0x00, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x00, 0x00, 0x00, 0x00))
 
 # Disable mouse pointer hiding
-Set-ItemProperty "HKCU:\Control Panel\Desktop" "UserPreferencesMask" ([byte[]](0x9e,
+Set-ItemProperty "HKU:\$userSid\Control Panel\Desktop" "UserPreferencesMask" ([byte[]](0x9e,
 0x1e, 0x06, 0x80, 0x12, 0x00, 0x00, 0x00))
 
 # Disable Game DVR and Game Bar
@@ -35,12 +39,12 @@ force-mkdir "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
 Set-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" "AllowgameDVR" 0
 
 # Disable easy access keyboard stuff
-Set-ItemProperty "HKCU:\Control Panel\Accessibility\StickyKeys" "Flags" "506"
-Set-ItemProperty "HKCU:\Control Panel\Accessibility\Keyboard Response" "Flags" "122"
-Set-ItemProperty "HKCU:\Control Panel\Accessibility\ToggleKeys" "Flags" "58"
+Set-ItemProperty "HKU:\$userSid\Control Panel\Accessibility\StickyKeys" "Flags" "506"
+Set-ItemProperty "HKU:\$userSid\Control Panel\Accessibility\Keyboard Response" "Flags" "122"
+Set-ItemProperty "HKU:\$userSid\Control Panel\Accessibility\ToggleKeys" "Flags" "58"
 
 # Numlock enabled at login
-Set-ItemProperty "HKCU:\Control Panel\Keyboard" "InitialKeyboardIndicators" 2
+Set-ItemProperty "HKU:\$userSid\Control Panel\Keyboard" "InitialKeyboardIndicators" 2
 
 # Disable Edge desktop shortcut on new profiles
 $regKeyPath="HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer"
@@ -54,19 +58,19 @@ if ($keyExists -eq $false){
 #========================
 
 # Expand to open folder
-Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "NavPaneExpandToCurrentFolder" 1
+Set-ItemProperty "HKU:\$userSid\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "NavPaneExpandToCurrentFolder" 1
 
 # Setting folder view options
-Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "Hidden" 1
-Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "HideFileExt" 0
-Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "HideDrivesWithNoMedia" 0
-Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "ShowSyncProviderNotifications" 0
+Set-ItemProperty "HKU:\$userSid\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "Hidden" 1
+Set-ItemProperty "HKU:\$userSid\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "HideFileExt" 0
+Set-ItemProperty "HKU:\$userSid\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "HideDrivesWithNoMedia" 0
+Set-ItemProperty "HKU:\$userSid\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "ShowSyncProviderNotifications" 0
 
 # Disable Aero-Shake Minimize feature
-Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "DisallowShaking" 1
+Set-ItemProperty "HKU:\$userSid\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "DisallowShaking" 1
 
 # Setting default explorer view to This PC
-Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "LaunchTo" 1
+Set-ItemProperty "HKU:\$userSid\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "LaunchTo" 1
 
 # Removing user folders under This PC
 # Remove Desktop from This PC
