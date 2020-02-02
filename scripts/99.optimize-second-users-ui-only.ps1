@@ -9,7 +9,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1
 # Preparation
 #============================================================================
 
-Check-AdminsRights
+Check-AdminRights
 
 # Real work
 #=============================================================================
@@ -20,7 +20,8 @@ Print-Message-With-Banner("Starting User UI Cleanup")
 &($PSScriptRoot+"\6.1.cleanup-taskbar.ps1")
 &($PSScriptRoot+"\7.unbloat-start-menu.ps1")
 
-if (Is-BuiltInAdmin) {
+if (Is-BuiltInAdminLoggedInUser) {
+    Write-Debug "Built-in admin account in session - User demotion skipped"
     Return
 } else {
 

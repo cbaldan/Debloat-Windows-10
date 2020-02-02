@@ -41,7 +41,7 @@ Function Get-LoggedUsername() {
     return $loggedUser
 }
 
-Function Is-BuiltInAdmin() {
+Function Is-BuiltInAdminLoggedInUser() {
 
     $result = $false
 
@@ -55,9 +55,39 @@ Function Is-BuiltInAdmin() {
     Return $result
 }
 
-Function Check-AdminsRights() {
+Function Load-UserRegistry() {
 
-    if (Is-BuiltInAdmin) {
+    if ($(Is-BuiltInAdminLoggedInUser)) {
+        Write-Debug "The logged-in user is the built-in Windows admin account"
+        Return
+    }
+
+    $loggedUser = Get-LoggedUsername
+    $isAdmin = Is-UserAdministrator $loggedUser
+    if ($isAdmin -eq $false){
+        $unloadUserProfile=$true
+    } else {
+        $unloadUserProfile=$fals
+    }
+
+}
+
+function Is-UserAdministrator($username) {
+    $result = $true
+
+    $administratorsAccount = Get-WmiObject Win32_Group -filter "LocalAccount=True AND SID='S-1-5-32-544'"
+    $administratorQuery = "GroupComponent = `"Win32_Group.Domain='" + $administratorsAccount.Domain + "',NAME='" + $administratorsAccount.Name + "'`""
+    $user = Get-WmiObject Win32_GroupUser -filter $administratorQuery | select PartComponent | where {$_ -match "Name=`"$username`""}
+    if ($user -eq $null) {
+        $result = $false
+    }
+
+    return $result
+}
+
+Function Check-AdminRights() {
+
+    if (Is-UserAdministrator($(Get-LoggedUsername))) {
         Return
     }
 
@@ -70,10 +100,11 @@ Function Check-AdminsRights() {
     
 }
 
+
 Function Remove-CurrentUserAdminGroup() {
 
-    if (Is-BuiltInAdmin) {
-        Write-Host "$env:UserName shouldn't be removed from Administrators group - removal skipped"
+    if (Is-BuiltInAdminLoggedInUser) {
+        Write-Host "ERROR: $env:UserName shouldn't be removed from Administrators group - removal skipped" -BackgroundColor DarkYellow
         Return
     }
 
