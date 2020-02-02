@@ -4,6 +4,9 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\take-own.psm1
 
 $lineSeparator="`n================================================="
 
+$DebugPreference = 'SilentlyContinue'
+#$DebugPreference = 'Continue'
+
 Function Print-Script-Banner($scriptName)
 {
    Write-Host "`n>> Executing: $scriptName$lineSeparator"

@@ -136,11 +136,17 @@ $apps = @(
 foreach ($app in $apps) {
     Write-Output "Trying to remove $app"
 
-    Get-AppxPackage -Name $app -AllUsers | Remove-AppxPackage -AllUsers
+    try {
+        Get-AppxPackage -Name $app -AllUsers | Remove-AppxPackage -AllUsers
 
-    Get-AppXProvisionedPackage -Online |
-        Where-Object DisplayName -EQ $app |
-        Remove-AppxProvisionedPackage -Online
+        Get-AppXProvisionedPackage -Online |
+            Where-Object DisplayName -EQ $app |
+            Remove-AppxProvisionedPackage -Online
+    } catch {
+        $exception = $_
+        Write-Host "WARN: Could not uninstall $app" -BackgroundColor DarkYellow
+        Write-Debug $exception
+    }
 }
 
 # Prevents Apps from re-installing
