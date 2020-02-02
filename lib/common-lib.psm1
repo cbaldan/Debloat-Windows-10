@@ -45,9 +45,10 @@ Function Is-BuiltInAdmin() {
 
     $result = $false
 
-    $loggedUser = Get-LoggedUsername
-    if ($loggedUser -like 'Admin*') {
-        Write-Debug "Assuming it's the built-in Administrator account: $env:UserName"
+    $sid = Get-UserSid $(Get-LoggedUsername)
+    $sidLast3Digits = $sid.Substring($sid.Length -3)
+
+    if ( $sidLast3Digits -eq "500" ) {
         $result = $true
     }
 
@@ -78,4 +79,19 @@ Function Remove-CurrentUserAdminGroup() {
 
     Add-LocalGroupMember -Group Users -Member $env:UserName
     Remove-LocalGroupMember -Group Administrators -Member $env:UserName
+}
+
+function Get-UserSid($username)
+{
+    try{
+        $domain = $env:COMPUTERNAME
+        $user = $username
+
+        $objUser = New-Object System.Security.Principal.NTAccount($domain, $user)
+        $strSID = $objUser.Translate([System.Security.Principal.SecurityIdentifier])
+
+        return $strSID.Value
+    } catch {
+        throw "Could not fetch SID for $username"
+    }
 }
