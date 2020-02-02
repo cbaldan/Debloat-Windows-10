@@ -22,7 +22,7 @@ if (Is-UserAdministrator $(Get-LoggedUsername)) {
 
         switch  ($choice) {
         'Yes' {
-            Remove-CurrentUserAdminGroup
+            Remove-UserFromAdminGroup $(Get-LoggedUsername)
 	        }
         }
     }

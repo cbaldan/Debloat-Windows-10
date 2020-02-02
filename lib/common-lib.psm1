@@ -106,15 +106,15 @@ function Is-UserAdministrator($username) {
     return $result
 }
 
-Function Remove-CurrentUserAdminGroup() {
+Function Remove-UserFromAdminGroup($username) {
 
     if (Is-BuiltInAdminLoggedInUser) {
         Write-Host "ERROR: $env:UserName shouldn't be removed from Administrators group - removal skipped" -BackgroundColor DarkYellow
         Return
     }
 
-    Add-LocalGroupMember -Group Users -Member $env:UserName
-    Remove-LocalGroupMember -Group Administrators -Member $env:UserName
+    Add-LocalGroupMember -Group Users -Member $username
+    Remove-LocalGroupMember -Group Administrators -Member $username
 }
 
 function Get-UserSid($username)
