@@ -6,7 +6,8 @@
 
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1 -Force
 
-Do-EnvSetup
+Exec-SmokeTest
+Stop-WindowsUpdateService
 
 Print-Message-With-Banner("Starting Windows 10 Cleanup")
 

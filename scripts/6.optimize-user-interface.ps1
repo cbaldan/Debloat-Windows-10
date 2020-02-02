@@ -12,6 +12,8 @@ Print-Script-Banner($MyInvocation.MyCommand.Name)
 
 $username = Get-LoggedUsername
 $userSid = Get-UserSid $username
+
+#The PSDrive mapping has to be done in every PS1 file
 New-PSDrive HKU Registry HKEY_USERS | Out-Null
 
 #=============================================================================

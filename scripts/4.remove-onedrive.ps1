@@ -15,6 +15,8 @@ Print-Script-Banner($MyInvocation.MyCommand.Name)
 $username = Get-LoggedUsername
 $userSid = Get-UserSid $username
 $userHomeFolder = Get-UserHomeFolder $userSid
+
+#The PSDrive mapping has to be done in every PS1 file
 New-PSDrive -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT" -Name "HKCR" | Out-Null
 
 #=============================================================================

@@ -7,15 +7,20 @@ $lineSeparator="`n================================================="
 $DebugPreference = 'SilentlyContinue'
 #$DebugPreference = 'Continue'
 
-Function Do-EnvSetup() {
+Function Exec-SmokeTest() {
+# This is a simple check to make sure the script will run fine
+
+    Write-Debug "Starting Smoke Test"
 
     try {
         Write-Debug "Stopping Windows Update Service"
         Stop-Service wuauserv
 
+        Do-MapHKEY_USERS
         $username = Get-LoggedUsername
         $userSid = Get-UserSid $username
         $userHomeFolder = Get-UserHomeFolder $userSid
+
     } catch {
         $exception = $_
         Write-Debug $exception
@@ -33,6 +38,11 @@ Function Do-MapHKEY_USERS() {
     # Creates new PS mapping to HKEY_USERS
     # http://www.myotherpcisacloud.com/post/Accessing-HKEY_USERS-With-Powershell
     New-PSDrive HKU Registry HKEY_USERS | Out-Null
+}
+
+Function Stop-WindowsUpdateService() {
+    Write-Debug "Stopping Windows Update Service"
+    Stop-Service wuauserv
 }
 
 Function Print-Script-Banner($scriptName)

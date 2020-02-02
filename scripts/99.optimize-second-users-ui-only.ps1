@@ -6,8 +6,6 @@
 
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1 -Force
 
-$username = Get-LoggedUsername
-
 Print-Message-With-Banner("Starting User UI Cleanup")
 
 &($PSScriptRoot+"\6.optimize-user-interface.ps1")

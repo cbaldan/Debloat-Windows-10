@@ -13,7 +13,7 @@ Print-Script-Banner($MyInvocation.MyCommand.Name)
 
 Add-Type -AssemblyName Microsoft.VisualBasic
 
-$msg="Enable the Administrator account?`n`nThe built-in admin account will be enabled and the current user will be removed from the 'Administrators' group.`n`n"
+$msg="Enable the Administrator account?`n`nThe Windows built-in admin account will be enabled and the current user will be removed from the 'Administrators' group.`n`n"
 $choice = [Microsoft.VisualBasic.Interaction]::MsgBox($msg, 'YesNo,SystemModal,Question', 'Enable admin')
 
 	switch  ($choice) {

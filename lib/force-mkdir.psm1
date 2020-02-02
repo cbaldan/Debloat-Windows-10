@@ -5,7 +5,8 @@
 # already present, all values within that key are purged.
 function force-mkdir($path) {
 
-    # The PS-Drive mapping does not progress
+    
+    #The PSDrive mapping has to be done in every PS1 file
     New-PSDrive HKU Registry HKEY_USERS | Out-Null
 
     if (!(Test-Path $path)) {
