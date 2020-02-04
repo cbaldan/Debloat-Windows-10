@@ -17,6 +17,11 @@ New-PSDrive HKU Registry HKEY_USERS | Out-Null
 
 #=============================================================================
 
+if ($testModeEnabled) {
+    Write-Debug "testModeEnabled"
+    return
+}
+
 Write-Output "`nUninstalling default apps`n"
 $apps = @(
     # default Windows 10 apps

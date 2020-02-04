@@ -11,6 +11,11 @@ Print-Script-Banner($MyInvocation.MyCommand.Name)
 
 #=============================================================================
 
+if ($testModeEnabled) {
+    Write-Debug "testModeEnabled"
+    return
+}
+
 Stop-Process -name explorer
 Start-Sleep -s 3
 

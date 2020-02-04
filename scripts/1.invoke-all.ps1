@@ -6,12 +6,14 @@
 
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1 -Force
 
+$testModeEnabled=$false
+
 Exec-SmokeTest
 Stop-WindowsUpdateService
 
 Print-Message-With-Banner("Starting Windows 10 Cleanup")
 
-&($PSScriptRoot+"\8.enable-administrator-acccount.ps1")
+&($PSScriptRoot+"\8.fix-acccount-privileges.ps1")
 &($PSScriptRoot+"\4.remove-onedrive.ps1")
 &($PSScriptRoot+"\6.1.cleanup-taskbar.ps1")
 &($PSScriptRoot+"\7.unbloat-start-menu.ps1")
