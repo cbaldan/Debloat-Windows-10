@@ -14,20 +14,6 @@ $username = Get-LoggedUsername
 
 #=============================================================================
 
-function Get-BuiltInAdminAccount() {
-
-    $profiles = Get-ChildItem -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\"
-    foreach ($item in $profiles) {
-        if ($item.name.substring($item.name.Length -3) -eq "500") {
-            $lastSlash = $item.name.LastIndexOf('\') + 1
-            $sid = $item.name.substring($lastSlash)
-            Get-LocalUser -SID $sid
-            return
-        }
-    }
-}
-
-
 if (Is-UserAdministrator $(Get-LoggedUsername)) {
     if (Is-BuiltInAdminLoggedInUser) {
         Write-Debug "Built-in admin account session active - account privilege fix skipped"
@@ -38,31 +24,38 @@ if (Is-UserAdministrator $(Get-LoggedUsername)) {
 
             $adminUser = Get-BuiltInAdminAccount
 
-            if (!$adminUser.Enabled) {
-                $msg="Enable the Administrator account?`n`nThe Windows built-in admin account will be enabled and the current user will be removed from the 'Administrators' group.`n`n"
-                $choice = [Microsoft.VisualBasic.Interaction]::MsgBox($msg, 'YesNo,SystemModal,Question', 'Enable admin')
+            if ($adminUser.Enabled) {
+                Remove-UserFromAdminGroup $username
+            } else {
 
-                switch  ($choice) {
-                    'Yes' {
-                        Enable-LocalUser $adminUser
+                if($testModeEnabled) {
+                    Enable-LocalUser $adminUser
+                    Remove-UserFromAdminGroup $username
+                } else {
 
-                        if ($testModeEnabled) {
-                            $pwd = ""
-                        } else {
-                            $pwd = [Microsoft.VisualBasic.Interaction]::InputBox('Enter the Administrator account password', 'Password', '*123')
-                        }
+                    $msg="Enable the Administrator account?`n`nThe Windows built-in admin account will be enabled and the current user will be removed from the 'Administrators' group.`n`n"
+                    $choice = [Microsoft.VisualBasic.Interaction]::MsgBox($msg, 'YesNo,SystemModal,Question', 'Enable admin')
 
-                        if ($pwd -ne "") {
-                            $pwd = ConvertTo-SecureString $pwd -AsPlainText -Force
-                            Set-LocalUser $adminUser -Password $pwd
-                        }
-	                }
-                }
-            }
+                    switch  ($choice) {
+                        'Yes' {
+                            Enable-LocalUser $adminUser
 
-            Write-Host "Removing admin rights: $username"
-            Remove-UserFromAdminGroup $username
-            
+                            if ($testModeEnabled) {
+                                $pwd = ""
+                            } else {
+                                $pwd = [Microsoft.VisualBasic.Interaction]::InputBox('Enter the Administrator account password', 'Password', '*123')
+                            }
+
+                            if ($pwd -ne "") {
+                                $pwd = ConvertTo-SecureString $pwd -AsPlainText -Force
+                                Set-LocalUser $adminUser -Password $pwd
+                            }
+
+                            Remove-UserFromAdminGroup $username
+	                    }#Yes
+                    }#switch
+                } #testMode
+            }#else !admin.Enabled
         }
     }
 }

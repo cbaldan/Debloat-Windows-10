@@ -7,7 +7,10 @@ $lineSeparator="`n================================================="
 $DebugPreference = 'SilentlyContinue'
 #$DebugPreference = 'Continue'
 
-Function Exec-SmokeTest() {
+$path="HKLM:\Software\Microsoft\Windows\CurrentVersion"
+$debloatedItemName="WindowsDebloatedOn"
+
+Function Exec-SmokeTest($testModeEnabled) {
 # This is a simple check to make sure the script will run fine
 
     Write-Debug "Starting Smoke Test"
@@ -17,9 +20,17 @@ Function Exec-SmokeTest() {
         Stop-Service wuauserv
 
         Do-MapHKEY_USERS
-        $username = Get-LoggedUsername
-        $userSid = Get-UserSid $username
-        $userHomeFolder = Get-UserHomeFolder $userSid
+        $username=Get-LoggedUsername
+        $userSid=Get-UserSid $username
+        Get-UserHomeFolder $userSid | Out-Null
+
+        $isDebloated=Is-WindowsDebloated
+
+        Write-Debug "testModeEnabled: $testModeEnabled`nisDebloated: $isDebloated"
+
+        if ($testModeEnabled -and ($isDebloated -eq $false)) {
+            Create-TestAccounts
+        }
 
     } catch {
         $exception = $_
@@ -43,6 +54,35 @@ Function Do-MapHKEY_USERS() {
 Function Stop-WindowsUpdateService() {
     Write-Debug "Stopping Windows Update Service"
     Stop-Service wuauserv
+}
+
+Function Is-WindowsDebloated() {
+
+    $isDebloated=$true
+
+    $windowsDebloated = Test-KeyValueExists $path $debloatedItemName
+
+    if (!$windowsDebloated) {
+        $isDebloated=$false
+    }
+
+    return $isDebloated
+}
+
+Function Create-WindowsDebloatedRegEntry() {
+    $debloatedItemValue=(Get-Date).ToString()
+    New-ItemProperty $path -Name $debloatedItemName -PropertyType String -Value $debloatedItemValue | Out-Null
+}
+
+Function Create-TestAccounts() {
+    Write-Host "`n>>Creating test accounts"
+    New-LocalUser -Name "T1a" -Description "Admin test account" -NoPassword
+    Add-LocalGroupMember -Group Administrators -Member "T1a"
+    Set-LocalUser -Name "T1a" -PasswordNeverExpires $true
+
+    New-LocalUser -Name "T2" -Description "User test account" -NoPassword
+    Add-LocalGroupMember -Group Users -Member "T2"
+    Set-LocalUser -Name "T2" -PasswordNeverExpires $true
 }
 
 Function Print-Script-Banner($scriptName)
@@ -113,6 +153,7 @@ Function Remove-UserFromAdminGroup($username) {
         Return
     }
 
+    Write-Host "Removing admin rights: $username"
     Add-LocalGroupMember -Group Users -Member $username
     Remove-LocalGroupMember -Group Administrators -Member $username
 }
@@ -138,4 +179,17 @@ function Get-UserHomeFolder($sid) {
     $userProfilePathValue = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\$sid" -Name ProfileImagePath
     $folder = $userProfilePathValue.ProfileImagePath
     return $folder
+}
+
+function Get-BuiltInAdminAccount() {
+
+    $profiles = Get-ChildItem -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\"
+    foreach ($item in $profiles) {
+        if ($item.name.substring($item.name.Length -3) -eq "500") {
+            $lastSlash = $item.name.LastIndexOf('\') + 1
+            $sid = $item.name.substring($lastSlash)
+            Get-LocalUser -SID $sid
+            return
+        }
+    }
 }
