@@ -18,6 +18,7 @@ $userHomeFolder = Get-UserHomeFolder $userSid
 
 #The PSDrive mapping has to be done in every PS1 file
 New-PSDrive -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT" -Name "HKCR" | Out-Null
+New-PSDrive HKU Registry HKEY_USERS | Out-Null
 
 #=============================================================================
 
@@ -52,9 +53,10 @@ Set-ItemProperty "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}
 Remove-PSDrive "HKCR"
 
 # Removing run hook for new users
-reg load "HKU\Default" "C:\Users\Default\NTUSER.DAT" | Out-Null
-reg delete "HKEY_USERS\Default\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "OneDriveSetup" /f | Out-Null
-reg unload "HKU\Default" | Out-Null
+Load-DefaultUserNtDat
+#reg delete "HKEY_USERS\Default\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "OneDriveSetup" /f | Out-Null
+Remove-ItemProperty -Path "HKU:\DEFAULT\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "OneDriveSetup"
+Unload-DefaultUserNtDat
 
 # Removing startmenu entry
 Remove-Item -Force -ErrorAction SilentlyContinue "$userHomeFolder\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OneDrive.lnk"

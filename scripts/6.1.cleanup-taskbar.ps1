@@ -13,24 +13,31 @@ $userSid = Get-UserSid $username
 
 #The PSDrive mapping has to be done in every PS1 file
 New-PSDrive HKU Registry HKEY_USERS | Out-Null
+Load-DefaultUserNtDat
 
 #=============================================================================
 
-# Set Cortana search box hidden from taskbar
-Set-ItemProperty "HKU:\$userSid\Software\Microsoft\Windows\CurrentVersion\Search" "SearchboxTaskbarMode" 0
+$profiles = @($userSid,"DEFAULT")
 
-# Remove Cortana button from taskbar
-Set-ItemProperty "HKU:\$userSid\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "ShowCortanaButton" 0
+foreach ($profile in $profiles) {
+	# Set Cortana search box hidden from taskbar
+	Set-ItemProperty "HKU:\$profile\Software\Microsoft\Windows\CurrentVersion\Search" "SearchboxTaskbarMode" 0
 
-# Remove TaskView button from taskbar
-Set-ItemProperty "HKU:\$userSid\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "ShowTaskViewButton" 0
+	# Remove Cortana button from taskbar
+	Set-ItemProperty "HKU:\$profile\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "ShowCortanaButton" 0
 
-# Use small buttons in Taksbar
-Set-ItemProperty "HKU:\$userSid\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "TaskbarSmallIcons" 1
+	# Remove TaskView button from taskbar
+	Set-ItemProperty "HKU:\$profile\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "ShowTaskViewButton" 0
 
-# Remove People button from taskbar
-force-mkdir "HKU:\$userSid\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People"
-Set-ItemProperty "HKU:\$userSid\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" "PeopleBand" 0
+	# Use small buttons in Taksbar
+	Set-ItemProperty "HKU:\$profile\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "TaskbarSmallIcons" 1
+
+	# Remove People button from taskbar
+	force-mkdir "HKU:\$profile\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People"
+	Set-ItemProperty "HKU:\$profile\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" "PeopleBand" 0
+}
+# 2019-02-08: Unloading the DEFAULT profile at this point is causing an ERROR
+#Unload-DefaultUserNtDat
 
 Stop-Process -name explorer
 Start-Sleep -s 3

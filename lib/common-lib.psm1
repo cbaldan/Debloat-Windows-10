@@ -7,7 +7,7 @@ $lineSeparator="`n================================================="
 $DebugPreference = 'SilentlyContinue'
 #$DebugPreference = 'Continue'
 
-$path="HKLM:\Software\Microsoft\Windows\CurrentVersion"
+$debloatPath="HKLM:\Software\Microsoft\Windows\CurrentVersion"
 $debloatedItemName="WindowsDebloatedOn"
 
 Function Exec-SmokeTest($testModeEnabled) {
@@ -51,6 +51,19 @@ Function Do-MapHKEY_USERS() {
     New-PSDrive HKU Registry HKEY_USERS | Out-Null
 }
 
+Function Load-DefaultUserNtDat() {
+    $index = $env:USERPROFILE.LastIndexOf('\')
+    $usersFolder = $env:USERPROFILE.Substring(0,$index)
+    reg load HKU\DEFAULT "$usersFolder\Default\NTUSER.DAT" | Out-Null
+}
+
+Function Unload-DefaultUserNtDat() {
+    reg unload HKU\DEFAULT | Out-Null
+    # Force release of NTUSER.DAT
+    # https://jrich523.wordpress.com/2012/03/06/powershell-loading-and-unloading-registry-hives/
+    [gc]::collect()
+}
+
 Function Stop-WindowsUpdateService() {
     Write-Debug "Stopping Windows Update Service"
     Stop-Service wuauserv
@@ -60,7 +73,7 @@ Function Is-WindowsDebloated() {
 
     $isDebloated=$true
 
-    $windowsDebloated = Test-KeyValueExists $path $debloatedItemName
+    $windowsDebloated = Test-KeyValueExists $debloatPath $debloatedItemName
 
     if (!$windowsDebloated) {
         $isDebloated=$false
@@ -69,9 +82,13 @@ Function Is-WindowsDebloated() {
     return $isDebloated
 }
 
+Function Get-DebloatDate() {
+	return (Get-ItemProperty -Path $debloatPath -Name $debloatedItemName).$debloatedItemName
+}
+
 Function Create-WindowsDebloatedRegEntry() {
     $debloatedItemValue=(Get-Date).ToString()
-    New-ItemProperty $path -Name $debloatedItemName -PropertyType String -Value $debloatedItemValue | Out-Null
+    New-ItemProperty $debloatPath -Name $debloatedItemName -PropertyType String -Value $debloatedItemValue | Out-Null
 }
 
 Function Create-TestAccounts() {

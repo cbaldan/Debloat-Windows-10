@@ -6,15 +6,12 @@
 
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1 -Force
 
+$testModeEnabled=$false
 Exec-SmokeTest $testModeEnabled
 $isDebloated=Is-WindowsDebloated
 
 if ($isDebloated -eq $true) {
-    Print-Message-With-Banner("Starting User UI Cleanup")
-
-    &($PSScriptRoot+"\6.optimize-user-interface.ps1")
-    &($PSScriptRoot+"\6.1.cleanup-taskbar.ps1")
-    &($PSScriptRoot+"\8.fix-acccount-privileges")
+    Write-Host "This Windows has already been debloated on: "$(Get-DebloatDate)
 } else {
     Stop-WindowsUpdateService
 
@@ -36,6 +33,7 @@ if ($isDebloated -eq $true) {
 
     Create-WindowsDebloatedRegEntry
 
+	Write-Debug "testModeEnabled: $testModeEnabled"
     if($testModeEnabled -eq $false) {
         Restart-Dialog
     }

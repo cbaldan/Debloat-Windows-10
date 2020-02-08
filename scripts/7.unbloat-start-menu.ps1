@@ -17,20 +17,21 @@ New-PSDrive HKU Registry HKEY_USERS | Out-Null
 #=============================================================================
 
 #Delete layout file if it already exists
-if (Test-Path C:\Windows\StartLayout.xml)
-{
-    Remove-Item C:\Windows\StartLayout.xml
-}
+#if (Test-Path $layoutFile)
+#{
+#    Remove-Item $layoutFile
+#}
 
+$layoutFile="$env:temp\StartMenuLayout.xml"
 #Creates the blank layout file
-echo "<LayoutModificationTemplate xmlns:defaultlayout=""http://schemas.microsoft.com/Start/2014/FullDefaultLayout"" xmlns:start=""http://schemas.microsoft.com/Start/2014/StartLayout"" Version=""1"" xmlns=""http://schemas.microsoft.com/Start/2014/LayoutModification"">" >> C:\Windows\StartLayout.xml
-echo "  <LayoutOptions StartTileGroupCellWidth=""6"" />" >> C:\Windows\StartLayout.xml
-echo "  <DefaultLayoutOverride>" >> C:\Windows\StartLayout.xml
-echo "    <StartLayoutCollection>" >> C:\Windows\StartLayout.xml
-echo "      <defaultlayout:StartLayout GroupCellWidth=""6"" />" >> C:\Windows\StartLayout.xml
-echo "    </StartLayoutCollection>" >> C:\Windows\StartLayout.xml
-echo "  </DefaultLayoutOverride>" >> C:\Windows\StartLayout.xml
-echo "</LayoutModificationTemplate>" >> C:\Windows\StartLayout.xml
+echo "<LayoutModificationTemplate xmlns:defaultlayout=""http://schemas.microsoft.com/Start/2014/FullDefaultLayout"" xmlns:start=""http://schemas.microsoft.com/Start/2014/StartLayout"" Version=""1"" xmlns=""http://schemas.microsoft.com/Start/2014/LayoutModification"">" >> $layoutFile
+echo "  <LayoutOptions StartTileGroupCellWidth=""6"" />" >> $layoutFile
+echo "  <DefaultLayoutOverride>" >> $layoutFile
+echo "    <StartLayoutCollection>" >> $layoutFile
+echo "      <defaultlayout:StartLayout GroupCellWidth=""6"" />" >> $layoutFile
+echo "    </StartLayoutCollection>" >> $layoutFile
+echo "  </DefaultLayoutOverride>" >> $layoutFile
+echo "</LayoutModificationTemplate>" >> $layoutFile
 
 $regAliases = @("HKLM:", "HKU:\$userSid")
 
@@ -42,16 +43,13 @@ foreach ($regAlias in $regAliases){
         New-Item -Path $basePath -Name "Explorer" | Out-Null
     }
     Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 1
-    Set-ItemProperty -Path $keyPath -Name "StartLayoutFile" -Value "C:\Windows\StartLayout.xml"
+    Set-ItemProperty -Path $keyPath -Name "StartLayoutFile" -Value $layoutFile
 }
 
 #Restart Explorer, open the start menu (necessary to load the new layout), and give it a few seconds to process
 Stop-Process -name explorer
 Start-Sleep -s 3
 $wshell = New-Object -ComObject wscript.shell; $wshell.SendKeys('^{ESCAPE}')
-
-# To make the clean start menu default for current and all future users, remove all lines below here
-# ==================================================================================================
 
 #Enable the ability to pin items again by disabling "LockedStartLayout"
 foreach ($regAlias in $regAliases){
@@ -60,12 +58,11 @@ foreach ($regAlias in $regAliases){
     Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 0
 }
 
-#Restart Explorer and delete the layout file
+#Restart Explorer
 Stop-Process -name explorer
-Remove-Item C:\Windows\StartLayout.xml
 
 # Make clean start menu default to all users
-$layoutFile="$env:temp\StartMenuLayout.xml"
-Export-StartLayout –path $layoutFile
 Import-StartLayout -LayoutPath $layoutFile -MountPath $env:SystemDrive\
-Remove-Item -Recurse -Force  $layoutFile
+
+# Delete layout file
+Remove-Item $layoutFile
