@@ -39,10 +39,9 @@ if (Is-UserAdministrator $(Get-LoggedUsername)) {
                     switch  ($choice) {
                         'Yes' {
 							if ($adminUser -eq $null){
-								net user administrator /active:yes
+                                $adminUserSid = Get-BuiltInAdminAccountSID
+								Enable-LocalUser -SID $adminUserSid
 								$adminUser = Get-BuiltInAdminAccount
-							} else {
-								Enable-LocalUser $adminUser
 							}
 
                             if ($testModeEnabled) {

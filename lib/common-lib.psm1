@@ -210,3 +210,8 @@ function Get-BuiltInAdminAccount() {
         }
     }
 }
+
+function Get-BuiltInAdminAccountSID() {
+    $sidArray=Get-WmiObject -Class Win32_UserAccount | Select SID | Where-Object {$_.sid -like "*-500"}
+    return $sidArray[0].SID
+}
