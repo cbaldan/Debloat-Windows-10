@@ -6,8 +6,6 @@
 
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1 -Force
 
-$testModeEnabled=$false
-
 Exec-SmokeTest $testModeEnabled
 $isDebloated=Is-WindowsDebloated
 
@@ -16,7 +14,6 @@ if ($isDebloated -eq $true) {
 
     &($PSScriptRoot+"\6.optimize-user-interface.ps1")
     &($PSScriptRoot+"\6.1.cleanup-taskbar.ps1")
-    &($PSScriptRoot+"\7.unbloat-start-menu.ps1")
     &($PSScriptRoot+"\8.fix-acccount-privileges")
 } else {
     Stop-WindowsUpdateService

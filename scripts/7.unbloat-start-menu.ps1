@@ -8,13 +8,6 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1 -Force
 
 Print-Script-Banner($MyInvocation.MyCommand.Name)
 
-$isDebloated=Is-WindowsDebloated
-
-if ($isDebloated -eq $true) {
-    Write-Debug "$MyInvocation.MyCommand.Name skipped - Windows already debloated"
-    return
-}
-
 $username = Get-LoggedUsername
 $userSid = Get-UserSid $username
 
