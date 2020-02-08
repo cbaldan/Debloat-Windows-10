@@ -38,7 +38,12 @@ if (Is-UserAdministrator $(Get-LoggedUsername)) {
 
                     switch  ($choice) {
                         'Yes' {
-                            Enable-LocalUser $adminUser
+							if ($adminUser -eq $null){
+								net user administrator /active:yes
+								$adminUser = Get-BuiltInAdminAccount
+							} else {
+								Enable-LocalUser $adminUser
+							}
 
                             if ($testModeEnabled) {
                                 $pwd = ""
