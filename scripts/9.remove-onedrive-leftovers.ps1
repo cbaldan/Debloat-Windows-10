@@ -16,6 +16,11 @@ if ($testModeEnabled) {
     return
 }
 
+if($skipOneDriveUnintall -eq $true) {
+    Write-Debug "One drive leftover removal skipped"
+    return
+}
+
 Stop-Process -name explorer
 Start-Sleep -s 3
 
