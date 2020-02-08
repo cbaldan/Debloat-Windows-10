@@ -8,6 +8,13 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1 -Force
 
 Print-Script-Banner($MyInvocation.MyCommand.Name)
 
+$isDebloated=Is-WindowsDebloated
+
+if ($isDebloated -eq $true) {
+    Write-Debug "$MyInvocation.MyCommand.Name skipped - Windows already debloated"
+    return
+}
+
 $username = Get-LoggedUsername
 $userSid = Get-UserSid $username
 
@@ -63,3 +70,9 @@ foreach ($regAlias in $regAliases){
 #Restart Explorer and delete the layout file
 Stop-Process -name explorer
 Remove-Item C:\Windows\StartLayout.xml
+
+# Make clean start menu default to all users
+$layoutFile="$env:temp\StartMenuLayout.xml"
+Export-StartLayout –path $layoutFile
+Import-StartLayout -LayoutPath $layoutFile -MountPath $env:SystemDrive\
+Remove-Item -Recurse -Force  $layoutFile
