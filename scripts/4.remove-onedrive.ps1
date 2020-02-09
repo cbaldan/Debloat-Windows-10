@@ -22,11 +22,8 @@ New-PSDrive HKU Registry HKEY_USERS | Out-Null
 
 #=============================================================================
 
-$oneDriveSetup = Get-Process "OneDriveSetup" -ErrorAction SilentlyContinue
-if ($oneDriveSetup) {
-  Write-Host "OneDriveSetup is still running - uninstall skipped" -BackgroundColor DarkYellow
-  $skipOneDriveUnintall=$true
-  return
+if ($skipOneDriveUnintall) {
+    return
 }
 
 Stop-Process -name OneDrive

@@ -163,7 +163,7 @@ function Is-UserAdministrator($username) {
     return $result
 }
 
-Function Remove-UserFromAdminGroup($username) {
+Function Remove-UserFromAdminGroup($sid) {
 
     if (Is-BuiltInAdminLoggedInUser) {
         Write-Host "ERROR: $env:UserName shouldn't be removed from Administrators group - removal skipped" -BackgroundColor DarkYellow
@@ -171,8 +171,8 @@ Function Remove-UserFromAdminGroup($username) {
     }
 
     Write-Host "Removing admin rights: $username"
-    Add-LocalGroupMember -Group Users -Member $username
-    Remove-LocalGroupMember -Group Administrators -Member $username
+    Add-LocalGroupMember -Member $username -SID S-1-5-32-545    #Users group
+    Remove-LocalGroupMember -Member $username -SID S-1-5-32-544 #Admin group
 }
 
 function Get-UserSid($username)
@@ -214,4 +214,17 @@ function Get-BuiltInAdminAccount() {
 function Get-BuiltInAdminAccountSID() {
     $sidArray=Get-WmiObject -Class Win32_UserAccount | Select SID | Where-Object {$_.sid -like "*-500"}
     return $sidArray[0].SID
+}
+
+Function Is-OneDriveSetupRunning() {
+
+    $skipOneDriveUnintall=$false
+
+    $oneDriveSetupRunning = Get-Process "OneDriveSetup" -ErrorAction SilentlyContinue
+    if ($oneDriveSetupRunning) {
+      Write-Host "OneDriveSetup is running - Uninstall will be skipped, run the scripts after setup is complete" -BackgroundColor Yellow -ForegroundColor Black
+      $skipOneDriveUnintall=$true
+    }
+
+    return $skipOneDriveUnintall
 }

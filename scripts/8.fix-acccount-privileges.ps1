@@ -22,7 +22,7 @@ if (Is-BuiltInAdminLoggedInUser) {
 	$adminUser = Get-LocalUser -SID $adminUserSid
 
     if($testModeEnabled) {
-        Remove-UserFromAdminGroup $username
+        Remove-UserFromAdminGroup $adminUserSid
 
         Enable-LocalUser $adminUser
         $pwd = ConvertTo-SecureString "" -AsPlainText -Force
@@ -36,7 +36,7 @@ if (Is-BuiltInAdminLoggedInUser) {
         switch  ($choice) {
             'Yes' {
                 if (Is-UserAdministrator $username) {
-                    Remove-UserFromAdminGroup $username
+                    Remove-UserFromAdminGroup $adminUserSid
                 }
 
                 Enable-LocalUser $adminUser

@@ -9,6 +9,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1 -Force
 $testModeEnabled=$false
 Exec-SmokeTest $testModeEnabled
 $isDebloated=Is-WindowsDebloated
+$skipOneDriveUnintall=Is-OneDriveSetupRunning
 
 if ($isDebloated -eq $true) {
     Write-Host "This Windows has already been debloated on: "$(Get-DebloatDate)

@@ -16,17 +16,17 @@ if ($testModeEnabled) {
     return
 }
 
-if($skipOneDriveUnintall -eq $true) {
-    Write-Debug "One drive leftover removal skipped"
-    return
+if($skipOneDriveUnintall) {
+    Write-Host "One drive leftover removal skipped"
 }
 
+#Necessary to succeed in files removal
 Stop-Process -name explorer
 Start-Sleep -s 3
 
 # Removing OneDrive leftovers
 foreach ($directory in (Get-ChildItem "$env:WinDir\WinSxS\*onedrive*")) {
-    Remove-Item -Recurse -Force $directory.FullName
+    Remove-Item -ErrorAction SilentlyContinue -Recurse -Force $directory.FullName
 }
 
 $userLocalAppData="$userHomeFolder\AppData\Local"
