@@ -17,25 +17,24 @@ Load-DefaultUserNtDat
 
 #=============================================================================
 
+## Disable Background apps
+
+# Current user
 $path="HKU:\$userSid\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications"
 $key="GlobalUserDisabled"
+New-ItemProperty $path -Name $key -PropertyType DWORD -Value 1 | Out-Null
 
-$profiles = @($userSid,"DEFAULT")
+# Default profile
+# 2020-02-09: Even with the item present in C:\Users\Default\NTUSER.DATA file, new profiles won't
+# have the item cloned from the default profile. Bug?
+#$userSid="DEFAULT"
+#$path="HKU:\$userSid\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications"
+#force-mkdir $path
+#New-ItemProperty $path -Name $key -PropertyType DWORD -Value 1 | Out-Null
+#Start-Sleep -Seconds 5
+#Unload-DefaultUserNtDat
 
-foreach ($profile in $profiles) {
-	# Thanks to some bug, the Key existence for a different user
-	# has to be tested in the script, it will always return false
-	# if tested in a module (.psm1) when the user running is not in the admin group.
-	$item=Get-Item $path -EA Ignore
-	$keyExists = $item.Property -contains $key
-
-	if(!$keyExists){
-		New-ItemProperty $path -Name $key -PropertyType DWORD -Value 1 | Out-Null
-	}
-}
 
 # Disable Microsoft Edge pre-launch
 force-mkdir "HKLM:SOFTWARE\Policies\Microsoft\MicrosoftEdge\Main"
 Set-ItemProperty "HKLM:SOFTWARE\Policies\Microsoft\MicrosoftEdge\Main" "AllowPrelaunch" 0
-
-Unload-DefaultUserNtDat

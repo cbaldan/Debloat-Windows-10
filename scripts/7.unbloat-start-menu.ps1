@@ -22,7 +22,7 @@ New-PSDrive HKU Registry HKEY_USERS | Out-Null
 #    Remove-Item $layoutFile
 #}
 
-$layoutFile="$env:temp\StartMenuLayout.xml"
+$layoutFile="C:\Windows\StartMenuLayout.xml"
 #Creates the blank layout file
 echo "<LayoutModificationTemplate xmlns:defaultlayout=""http://schemas.microsoft.com/Start/2014/FullDefaultLayout"" xmlns:start=""http://schemas.microsoft.com/Start/2014/StartLayout"" Version=""1"" xmlns=""http://schemas.microsoft.com/Start/2014/LayoutModification"">" >> $layoutFile
 echo "  <LayoutOptions StartTileGroupCellWidth=""6"" />" >> $layoutFile

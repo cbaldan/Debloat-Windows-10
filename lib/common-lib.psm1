@@ -163,7 +163,7 @@ function Is-UserAdministrator($username) {
     return $result
 }
 
-Function Remove-UserFromAdminGroup($sid) {
+Function Remove-UserFromAdminGroup($username) {
 
     if (Is-BuiltInAdminLoggedInUser) {
         Write-Host "ERROR: $env:UserName shouldn't be removed from Administrators group - removal skipped" -BackgroundColor DarkYellow
