@@ -31,10 +31,6 @@ foreach ($profile in $profiles) {
 
 	# Use small buttons in Taksbar
 	Set-ItemProperty "HKU:\$profile\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "TaskbarSmallIcons" 1
-
-	# Remove People button from taskbar
-	force-mkdir "HKU:\$profile\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People"
-	Set-ItemProperty "HKU:\$profile\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" "PeopleBand" 0
 }
 # 2019-02-08: Unloading the DEFAULT profile at this point is causing an ERROR
 #Unload-DefaultUserNtDat

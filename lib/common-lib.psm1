@@ -92,7 +92,7 @@ Function Create-WindowsDebloatedRegEntry() {
 }
 
 Function Create-TestAccounts() {
-    Write-Host "`n>>Creating test accounts"
+    Print-Message-With-Prefix("Creating test accounts")
     New-LocalUser -Name "T1a" -Description "Admin test account" -NoPassword
     Add-LocalGroupMember -Group Administrators -Member "T1a"
     Set-LocalUser -Name "T1a" -PasswordNeverExpires $true
@@ -107,9 +107,9 @@ Function Print-Script-Banner($scriptName)
    Write-Host "`n>> Executing: $scriptName$lineSeparator"
 }
 
-Function Print-Message-With-Banner($msg)
+Function Print-Message-With-Prefix($msg)
 {
-   Write-Host "`n>> $msg$lineSeparator"
+   Write-Host ">> $msg"
 }
 
 Function Test-KeyExists($regKeyPath) {
@@ -216,15 +216,36 @@ function Get-BuiltInAdminAccountSID() {
     return $sidArray[0].SID
 }
 
-Function Is-OneDriveSetupRunning() {
+Function Remove-OneDriveCheck() {
 
-    $skipOneDriveUnintall=$false
+    Print-Message-With-Prefix("Checking OneDrive status")
 
-    $oneDriveSetupRunning = Get-Process "OneDriveSetup" -ErrorAction SilentlyContinue
-    if ($oneDriveSetupRunning) {
-      Write-Host "OneDriveSetup is running - Uninstall will be skipped, run the scripts after setup is complete" -BackgroundColor Yellow -ForegroundColor Black
-      $skipOneDriveUnintall=$true
+    $removeOneDrive=$false
+
+    $isOneDriveRunning = Get-Process "OneDrive" -ErrorAction SilentlyContinue
+    if ($isOneDriveRunning) {
+        Write-Debug "OneDrive is runnin' happily!"
+        $removeOneDrive=$true
+    } else {
+        $oneDriveSetupRunning = Get-Process "OneDriveSetup" -ErrorAction SilentlyContinue
+        if ($oneDriveSetupRunning) {
+            Write-Host "OneDriveSetup is running" -BackgroundColor Yellow -ForegroundColor Black
+
+            $msg="`nIt's not possible to uninstall OneDrive at this time because its setup is still running - it is executed on user's first login.`n`nOK:`tSkip uninstallation`nCANCEL:`tAbort script execution`n`n`n"
+            $choice = [Microsoft.VisualBasic.Interaction]::MsgBox($msg, 'OkCancel,SystemModal,Question', 'Skip OneDrive Uninstall?')
+
+            switch  ($choice) {
+                'Ok' {
+                    $removeOneDrive=$false
+	            }#Ok
+                'Cancel' {
+                    Write-Host "Debloater execution has been canceled!" -BackgroundColor Yellow -ForegroundColor Black
+                    exit
+	            }#Ok
+            }#switch
+          
+        }
     }
 
-    return $skipOneDriveUnintall
+    return $removeOneDrive
 }

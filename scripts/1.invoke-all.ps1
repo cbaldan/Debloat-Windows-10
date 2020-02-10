@@ -9,14 +9,12 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1 -Force
 $testModeEnabled=$false
 Exec-SmokeTest $testModeEnabled
 $isDebloated=Is-WindowsDebloated
-$skipOneDriveUnintall=Is-OneDriveSetupRunning
+$removeOneDrive=Remove-OneDriveCheck
 
 if ($isDebloated -eq $true) {
-    Write-Host "This Windows has already been debloated on: "$(Get-DebloatDate)
+    Write-Host "This Windows has already been debloated on:"$(Get-DebloatDate)
 } else {
     Stop-WindowsUpdateService
-
-    Print-Message-With-Banner("Starting Windows 10 Cleanup")
 
     &($PSScriptRoot+"\8.fix-acccount-privileges.ps1")
     &($PSScriptRoot+"\4.remove-onedrive.ps1")

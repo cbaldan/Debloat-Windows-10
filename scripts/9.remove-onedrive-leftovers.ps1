@@ -16,7 +16,7 @@ if ($testModeEnabled) {
     return
 }
 
-if($skipOneDriveUnintall) {
+if(!$removeOneDrive) {
     Write-Host "One drive leftover removal skipped"
 }
 

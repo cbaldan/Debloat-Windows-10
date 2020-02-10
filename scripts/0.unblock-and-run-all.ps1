@@ -1,6 +1,9 @@
 ﻿#Requires -RunAsAdministrator
 
-Write-Output "`n>> Unblocking Scripts"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1 -Force
+
+Print-Script-Banner("Starting Windows 10 Cleanup")
+Print-Message-With-Prefix("Unblocking Scripts")
 
 cd $PSScriptRoot\..
 ls -Recurse *.ps*1 | Unblock-File

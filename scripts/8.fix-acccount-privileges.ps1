@@ -14,7 +14,6 @@ $username = Get-LoggedUsername
 
 #=============================================================================
 if (Is-BuiltInAdminLoggedInUser) {
-    "2"
     Write-Debug "Built-in admin account session active - account privilege fix skipped"
     Return
 } else {

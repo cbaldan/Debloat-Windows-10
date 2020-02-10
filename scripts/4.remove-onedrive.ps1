@@ -22,8 +22,9 @@ New-PSDrive HKU Registry HKEY_USERS | Out-Null
 
 #=============================================================================
 
-if ($skipOneDriveUnintall) {
-    return
+if (!$removeOneDrive) {
+    Write-Debug "OneDrive removal skipped"
+    Return
 }
 
 Stop-Process -name OneDrive
