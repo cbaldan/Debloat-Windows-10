@@ -22,7 +22,6 @@ if ($testModeEnabled) {
     return
 }
 
-Write-Output "`nUninstalling default apps`n"
 $apps = @(
     # default Windows 10 apps
     "Microsoft.3DBuilder"

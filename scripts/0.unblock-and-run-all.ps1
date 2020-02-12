@@ -1,7 +1,7 @@
 ﻿#Requires -RunAsAdministrator
 
 
-Write-Host ">> Unblocking Scripts"
+Write-Host ">> Unblocking Scripts`n"
 
 cd $PSScriptRoot\..
 ls -Recurse *.ps*1 | Unblock-File

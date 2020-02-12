@@ -16,12 +16,6 @@ New-PSDrive HKU Registry HKEY_USERS | Out-Null
 
 #=============================================================================
 
-#Delete layout file if it already exists
-#if (Test-Path $layoutFile)
-#{
-#    Remove-Item $layoutFile
-#}
-
 $layoutFile="C:\Windows\StartMenuLayout.xml"
 #Creates the blank layout file
 echo "<LayoutModificationTemplate xmlns:defaultlayout=""http://schemas.microsoft.com/Start/2014/FullDefaultLayout"" xmlns:start=""http://schemas.microsoft.com/Start/2014/StartLayout"" Version=""1"" xmlns=""http://schemas.microsoft.com/Start/2014/LayoutModification"">" >> $layoutFile
