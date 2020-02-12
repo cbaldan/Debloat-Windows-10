@@ -12,28 +12,53 @@ To see the original README.md go the original project.
 
 People complained in the original project that they can't use the XBox controller in the PC after running these scripts.
 https://github.com/W4RH4WK/Debloat-Windows-10/issues/78
+
 https://github.com/W4RH4WK/Debloat-Windows-10/issues/231
 
 I don't have an XBox, so I don't have how to test that, but it makes sense.
+
 The scripts will strip Windows 10 completely of all XBox related services and apps. Perhaps if the scripts are customized to leave everything XBox related untouched, it will continue to work.
+
 If someone can test it an make a PR with a conditional MsgBox to remove XBox related stuff, I'd greatly appreciate.
 
 ## Caveats
 
+**OneDrive uninstall**
+
 Since the scripts will uninstall **OneDrive**, it should be completely installed before it can be uninstalled.
+
 I said should because I noticed during the testing that in fact, **OneDrive** installation is kicked off when new users do the first login, and then, it will automatically download an update and kick off without requesting user consent.
+
 So the script will tries to detect the *OneDriveSetup.exe* setup process, and prompts the user to decide if:
-* Continue, but do not uninstall OneDrive
-* Abort script execution completely
+* Continue, but do not uninstall it
+* Abort script execution entirely
 
-If you don't need/use OneDrive, I'd say just wait for it to finish and then run the scripts.
+If you don't need/use **OneDrive**, I'd say just wait for it to finish and then run the scripts.
 
-## Final words
+## Heads up
 
 For security reasons, the script will automatically disable script execution once it's complete.
+
 I imagine experienced users who need this a lot will just unblock again for their needs, but home users will be safer having it off, just like the default behavior.
 
     Set-ExecutionPolicy Restricted -Scope CurrentUser
+
+## Final Words
+
+These scripts will do a deep cleanse of Windows, and leave pretty much a very lean, clean core version of W10.
+It will be snappier and run faster than a clean W10 installation.
+I used this script in a budged laptop that had some cheap Celeron CPU, 4 GB RAM, but I must admit an SSD, which wasn't making any miracle.
+After I installed a clean W10 1909 and ran these scripts, boy, that thing got much better. (It didn't become an i5 alright, but it got way better)
+
+Anyhow, I'd suggest you to build a Virtual Machine, install W10 and run these scripts before you go and apply in your machine.
+
+**I did not create a script to revert these changes.**
+
+100% of the UI customizations can be undone, for the current or all users, I'm just not so sure about every app removed by script 5. (mind the XBox stuff)
+
+It was fun, sometimes enfuriating, learning how to customize Windows, PowerShell, hit it's bugs, find workarounds, etc.
+
+I think I'm done with this, my next (planned?) update will probably after Windows 20H1, if any needed.
 
 ## Execution
 
