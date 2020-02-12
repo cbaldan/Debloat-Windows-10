@@ -241,3 +241,15 @@ Function Remove-OneDriveCheck() {
 
     return $removeOneDrive
 }
+
+Function Restart-Explorer() {
+
+    Stop-Process -name explorer
+    Start-Sleep -Seconds 3
+
+    $explorer = Get-Process "Explorer" -ErrorAction SilentlyContinue
+    if ($explorer -eq $null) {
+        Start-Process "explorer.exe"
+    }
+
+}

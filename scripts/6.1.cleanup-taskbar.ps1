@@ -35,5 +35,4 @@ foreach ($profile in $profiles) {
 # 2019-02-08: Unloading the DEFAULT profile at this point is causing an ERROR
 #Unload-DefaultUserNtDat
 
-Stop-Process -name explorer
-Start-Sleep -s 3
+Restart-Explorer

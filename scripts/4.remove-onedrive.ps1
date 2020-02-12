@@ -23,7 +23,7 @@ New-PSDrive HKU Registry HKEY_USERS | Out-Null
 #=============================================================================
 
 if (!$removeOneDrive) {
-    Write-Debug "OneDrive removal skipped"
+    Write-Host "OneDrive removal skipped"
     Return
 }
 
@@ -65,7 +65,7 @@ Unload-DefaultUserNtDat
 
 # Removing startmenu entry
 Remove-Item -Force -ErrorAction SilentlyContinue "$userHomeFolder\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OneDrive.lnk"
-Stop-Process -name explorer
+Restart-Explorer
 
 # Take ownership of files to remove later
 # Uninstall process has to complete before deletion is possible
