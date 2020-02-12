@@ -38,6 +38,8 @@ if ($isDebloated -eq $true) {
 
         Create-WindowsDebloatedRegEntry
 
+        Set-ExecutionPolicy Restricted -Scope CurrentUser
+
         Write-Host "`nWindows 10 Debloater execution complete" -BackgroundColor Green -ForegroundColor Black
 
         if($testModeEnabled -eq $false) {
