@@ -11,14 +11,16 @@ Print-LineSeparator
 
 $testModeEnabled=$false
 Exec-SmokeTest $testModeEnabled
+
 $isDebloated=Is-WindowsDebloated
-$removeOneDrive=Remove-OneDriveCheck
 
 if ($isDebloated -eq $true) {
     Write-Host "This Windows has already been debloated on:"$(Get-DebloatDate)
 } else {
     try {
         Stop-WindowsUpdateService
+
+        $removeOneDrive=Remove-OneDriveCheck
 
         &($PSScriptRoot+"\8.fix-acccount-privileges.ps1")
         &($PSScriptRoot+"\4.remove-onedrive.ps1")
@@ -36,7 +38,7 @@ if ($isDebloated -eq $true) {
 
         Create-WindowsDebloatedRegEntry
 
-        Write-Host "Windows 10 Debloater execution complete" -BackgroundColor Green -ForegroundColor Black
+        Write-Host "`nWindows 10 Debloater execution complete" -BackgroundColor Green -ForegroundColor Black
 
         if($testModeEnabled -eq $false) {
             Restart-Dialog

@@ -19,7 +19,7 @@ Function Exec-SmokeTest($testModeEnabled) {
         Write-Debug "Stopping Windows Update Service"
         Stop-Service wuauserv
 
-        Do-MapHKEY_USERS
+        Map-HKEY_USERS
         $username=Get-LoggedUsername
         $userSid=Get-UserSid $username
         Get-UserHomeFolder $userSid | Out-Null
@@ -39,11 +39,11 @@ Function Exec-SmokeTest($testModeEnabled) {
         Exit
     }
 
-    Write-Debug "Env setup successfull"
+    Write-Debug "Env smoke test successful"
 
 }
 
-Function Do-MapHKEY_USERS() {
+Function Map-HKEY_USERS() {
     Write-Debug "Creating HKU mapping"
 
     # Creates new PS mapping to HKEY_USERS
@@ -204,19 +204,6 @@ function Get-UserHomeFolder($sid) {
     return $folder
 }
 
-function Get-BuiltInAdminAccount() {
-
-    $profiles = Get-ChildItem -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\"
-    foreach ($item in $profiles) {
-        if ($item.name.substring($item.name.Length -3) -eq "500") {
-            $lastSlash = $item.name.LastIndexOf('\') + 1
-            $sid = $item.name.substring($lastSlash)
-            Get-LocalUser -SID $sid
-            return
-        }
-    }
-}
-
 function Get-BuiltInAdminAccountSID() {
     $sidArray=Get-WmiObject -Class Win32_UserAccount | Select SID | Where-Object {$_.sid -like "*-500"}
     return $sidArray[0].SID
@@ -247,10 +234,9 @@ Function Remove-OneDriveCheck() {
                 'Cancel' {
                     Write-Host "Debloater execution has been canceled!" -BackgroundColor Yellow -ForegroundColor Black
                     exit
-	            }#Ok
+	            }#Cancel
             }#switch
-          
-        }
+        }#if
     }
 
     return $removeOneDrive
