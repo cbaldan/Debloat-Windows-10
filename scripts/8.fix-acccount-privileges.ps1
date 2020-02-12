@@ -8,7 +8,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1 -Force
 Add-Type -AssemblyName Microsoft.VisualBasic
 
-Print-Script-Banner($MyInvocation.MyCommand.Name)
+Print-ScriptBanner($MyInvocation.MyCommand.Name)
 
 $username = Get-LoggedUsername
 

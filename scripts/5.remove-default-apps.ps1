@@ -7,7 +7,7 @@
 
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1 -Force
 
-Print-Script-Banner($MyInvocation.MyCommand.Name)
+Print-ScriptBanner($MyInvocation.MyCommand.Name)
 
 $username = Get-LoggedUsername
 $userSid = Get-UserSid $username
@@ -76,7 +76,7 @@ $apps = @(
 
     # Creators Update apps
     "Microsoft.Microsoft3DViewer"
-    "Microsoft.MSPaint"
+    "Microsoft.MSPaint" # Paint 3D
 
     #Redstone apps
     "Microsoft.BingFoodAndDrink"

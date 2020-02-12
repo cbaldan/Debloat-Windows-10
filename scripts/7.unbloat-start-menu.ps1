@@ -6,7 +6,7 @@
 
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1 -Force
 
-Print-Script-Banner($MyInvocation.MyCommand.Name)
+Print-ScriptBanner($MyInvocation.MyCommand.Name)
 
 $username = Get-LoggedUsername
 $userSid = Get-UserSid $username

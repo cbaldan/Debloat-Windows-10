@@ -2,7 +2,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\force-mkdir.psm1 -Force
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\take-own.psm1 -Force
 
-$lineSeparator="`n================================================="
+$lineSeparator="================================================="
 
 $DebugPreference = 'SilentlyContinue'
 #$DebugPreference = 'Continue'
@@ -92,7 +92,7 @@ Function Create-WindowsDebloatedRegEntry() {
 }
 
 Function Create-TestAccounts() {
-    Print-Message-With-Prefix("Creating test accounts")
+    Print-MessageWithPrefix("Creating test accounts")
     New-LocalUser -Name "T1a" -Description "Admin test account" -NoPassword
     Add-LocalGroupMember -Group Administrators -Member "T1a"
     Set-LocalUser -Name "T1a" -PasswordNeverExpires $true
@@ -102,12 +102,18 @@ Function Create-TestAccounts() {
     Set-LocalUser -Name "T2" -PasswordNeverExpires $true
 }
 
-Function Print-Script-Banner($scriptName)
+Function Print-ScriptBanner($scriptName)
 {
-   Write-Host "`n>> Executing: $scriptName$lineSeparator"
+   Write-Host "`n>> Executing: $scriptName"
+   Print-LineSeparator
 }
 
-Function Print-Message-With-Prefix($msg)
+Function Print-LineSeparator($scriptName)
+{
+   Write-Host $lineSeparator
+}
+
+Function Print-MessageWithPrefix($msg)
 {
    Write-Host ">> $msg"
 }
@@ -218,7 +224,7 @@ function Get-BuiltInAdminAccountSID() {
 
 Function Remove-OneDriveCheck() {
 
-    Print-Message-With-Prefix("Checking OneDrive status")
+    Print-MessageWithPrefix("Checking OneDrive status")
 
     $removeOneDrive=$false
 

@@ -6,6 +6,9 @@
 
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\common-lib.psm1 -Force
 
+Print-MessageWithPrefix("Starting Windows 10 Cleanup")
+Print-LineSeparator
+
 $testModeEnabled=$false
 Exec-SmokeTest $testModeEnabled
 $isDebloated=Is-WindowsDebloated
