@@ -37,17 +37,25 @@ If someone can test it an make a PR with a conditional MsgBox to remove XBox rel
 
 Since the scripts will uninstall **OneDrive**, it should be completely installed before it can be uninstalled.
 
-I said should because I noticed during the testing that in fact, **OneDrive** installation is kicked off when new users do the first login, and then, it will automatically download an update and kick off without requesting user consent.
+I said *should* because I noticed during the testing that in fact, **OneDrive** installation is kicked off when new users do the first login, and then, it will automatically download an update and kick off without requesting user consent.
 
-So the script will tries to detect the *OneDriveSetup.exe* setup process, and prompts the user to decide if:
+So the script tries to detect the *OneDriveSetup.exe* setup process, and if detected, will prompt the user to decide if:
 * Continue, but do not uninstall it
 * Abort script execution entirely
 
-If you don't need/use **OneDrive**, I'd say just wait for it to finish and then run the scripts.
+If you don't need/use **OneDrive**, I'd say just wait for its completion and then run the scripts.
+
+**Background Apps**
+
+Through testing, I discovered that it's not possible to disable the **Background apps** configuration for new users.
+
+Seems that the key that controls this is only created after the user default profile is cloned, and creating the key in the default profile caused multiple messages about default program changed in the new users first login.
 
 ## Heads up
 
-The script will allow execution only once in each Windows installation. If you run more than once, it will just print in the screen when the script was successfully executed.
+The script will allow execution only once in each Windows installation.
+
+If you run more than once, it will just print on screen when the script was successfully executed.
 
 Plus, the script only needs to be executed once.
 
@@ -68,7 +76,7 @@ Second, execute the following script:
 
     scripts\0.unblock-and-run-all.ps1
 
-You will be prompted to allow the execution of this first script, and it will conveniently unblock all other scripts and launch in sequence.
+You will be prompted to allow the execution of this first script, and it will conveniently unblock all other scripts and launch them in sequence.
 
 ## Liability
 
@@ -78,9 +86,9 @@ You will be prompted to allow the execution of this first script, and it will co
 
 These scripts will do a deep cleanse of Windows, and leave pretty much a very lean, clean core version of W10.
 
-It will be snappier and run faster than a fresh vanilla W10 installation.
+It will be snappier and run faster than a fresh W10 vanilla installation.
 
-I used this script in a budged laptop that had some cheap Celeron CPU, 4 GB RAM, but I must admit an SSD - which wasn't making any miracle.
+I used these scripts in a budget laptop that had some cheap Celeron CPU, 4 GB RAM, but I must admit an SSD - which wasn't making any miracle.
 
 After I installed a clean W10 1909 and ran these scripts, boy, that thing got much better (it didn't become an i5 alright, but it got way better).
 
