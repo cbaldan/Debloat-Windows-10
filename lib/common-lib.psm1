@@ -261,12 +261,16 @@ Function Stop-RestartProcess{
         [Parameter(Mandatory=$true)]
         [string]$ProcessName,
         [Parameter(Mandatory=$false)]
-        [boolean]$RestartProcess
+        [boolean]$RestartProcess,
+        [Parameter(Mandatory=$false)]
+        [boolean]$WaitTimeAfterStopSec = 1
     )
 
     $process = Get-Process $ProcessName -ErrorAction SilentlyContinue
     if ($process -ne $null) {
         Stop-Process -Name "$ProcessName" -Force
+
+        Start-Sleep -Seconds $WaitTimeAfterStopSec
     }
 
     if ($RestartProcess -eq $true){
@@ -282,21 +286,25 @@ Function Restart-Process {
             [Parameter(Mandatory=$true)]
             [string]$ProcessName,
             [Parameter(Mandatory=$false)]
+            [boolean]$ProcessUpWaitTimeSec = 3,
+            [Parameter(Mandatory=$false)]
             [boolean]$Retries = 0,
             [Parameter(Mandatory=$false)]
             [boolean]$RetryCount = 0
         )
 
-    $explorer = Get-Process $ProcessName -ErrorAction SilentlyContinue
-    if ($explorer -eq $null) {
+    $process = Get-Process $ProcessName -ErrorAction SilentlyContinue
+    if ($process -eq $null) {
         Start-Process $ProcessName
 
-        Start-Sleep -Seconds 3
+        Start-Sleep -Seconds $ProcessUpWaitTimeSec
 
-        if ($Retries > 0){
+        $process = Get-Process $ProcessName -ErrorAction SilentlyContinue
+        if (($Retries > 0) -and ($process -eq $null)) {
             if ($RetryCount > $Retries) {
-                Write-Host "Process '$ProcessName' could not be started after $Retries" -BackgroundColor Yellow -ForegroundColor Black
-                return
+                $msg = "Process '$ProcessName' could not be started after $Retries"
+                Write-Host $msg -BackgroundColor Yellow -ForegroundColor Black
+                throw $msg
             } else {
                 $RetryCount=$RetryCount + 1
                 Restart-Process -ProcessName $ProcessName -RetryCount $RetryCount -Retries 3

@@ -34,6 +34,7 @@ if (Is-BuiltInAdminLoggedInUser) {
 
         switch  ($choice) {
             'Yes' {
+                Write-Host "Enabling built-in Admin account"
                 if (Is-UserAdministrator $username) {
                     Remove-UserFromAdminGroup $username
                 }
@@ -47,6 +48,9 @@ if (Is-BuiltInAdminLoggedInUser) {
                     Set-LocalUser $adminUser -Password $pwd
                 }
 	        }#Yes
+            'No' {
+                Write-Host "The built-in Admin account will not be enabled" -BackgroundColor Yellow -ForegroundColor Black
+            }
         }#switch
     } #$createTestUsers
 }
