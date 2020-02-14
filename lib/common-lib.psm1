@@ -287,13 +287,11 @@ Function Restart-Process {
             [boolean]$RetryCount = 0
         )
 
-    Start-Sleep -Seconds 3
-
     $explorer = Get-Process $ProcessName -ErrorAction SilentlyContinue
     if ($explorer -eq $null) {
         Start-Process $ProcessName
 
-        Start-Sleep -Milliseconds 500
+        Start-Sleep -Seconds 3
 
         if ($Retries > 0){
             if ($RetryCount > $Retries) {
