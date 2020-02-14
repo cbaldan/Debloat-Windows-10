@@ -11,15 +11,6 @@ Print-ScriptBanner($MyInvocation.MyCommand.Name)
 
 #=============================================================================
 
-if ($testModeEnabled) {
-    Write-Debug "testModeEnabled"
-    return
-}
-
-if(!$removeOneDrive) {
-    Write-Host "One drive leftover removal skipped"
-}
-
 #Necessary to succeed in files removal
 Stop-RestartProcess -ProcessName explorer -RestartProcess $true
 

@@ -10,7 +10,7 @@ $DebugPreference = 'SilentlyContinue'
 $debloatPath="HKLM:\Software\Microsoft\Windows\CurrentVersion"
 $debloatedItemName="WindowsDebloatedOn"
 
-Function Exec-SmokeTest($testModeEnabled) {
+Function Exec-SmokeTest($createTestUsers) {
 # This is a simple check to make sure the script will run fine
 
     Write-Debug "Starting Smoke Test"
@@ -26,16 +26,14 @@ Function Exec-SmokeTest($testModeEnabled) {
 
         $isDebloated=Is-WindowsDebloated
 
-        Write-Debug "testModeEnabled: $testModeEnabled`nisDebloated: $isDebloated"
-
-        if ($testModeEnabled -and ($isDebloated -eq $false)) {
+        if ($createTestUsers -and ($isDebloated -eq $false)) {
             Create-TestAccounts
         }
 
     } catch {
         $exception = $_
-        Write-Debug $exception
         Write-Host "ERROR: Could init script" -BackgroundColor Red
+        Write-Error $exception
         Exit
     }
 
@@ -209,14 +207,14 @@ function Get-BuiltInAdminAccountSID() {
     return $sidArray[0].SID
 }
 
-Function Remove-OneDriveCheck() {
+Function Check-OneDriveStatus() {
 
     Print-MessageWithPrefix("Checking OneDrive status")
 
-    $removeOneDrive=$false
+    $uninstallOneDrive=$true
 
     $oneDriveSetupRunning = Get-Process "OneDriveSetup" -ErrorAction SilentlyContinue
-    if ($oneDriveSetupRunning) {
+    if ($oneDriveSetupRunning -ne $null) {
         Write-Host "OneDriveSetup is running" -BackgroundColor Yellow -ForegroundColor Black
 
         $msg="`nIt's not possible to uninstall OneDrive at this time because its setup is still running - it is executed on user's first login.`n`nOK:`tSkip uninstallation`nCANCEL:`tAbort script execution`n`n`n"
@@ -224,7 +222,7 @@ Function Remove-OneDriveCheck() {
 
         switch  ($choice) {
             'Ok' {
-                Write-Debug "User chose to skip OneDrive removal"
+                $uninstallOneDrive=$false
 	        }
             'Cancel' {
                 Write-Host "Debloater execution has been canceled!" -BackgroundColor Yellow -ForegroundColor Black
@@ -232,28 +230,28 @@ Function Remove-OneDriveCheck() {
 	        }
         }#switch
     } else {
-        $isOneDriveRunning = Get-Process "OneDrive" -ErrorAction SilentlyContinue
-        if ($isOneDriveRunning) {
+        $OneDriveProcess = Get-Process "OneDrive" -ErrorAction SilentlyContinue
+        if ($OneDriveProcess -ne $null) {
             Write-Debug "OneDrive is runnin' happily!"
-            $removeOneDrive=$true
         } else {
             $msg="`n`tOneDrive is not running.`t`n`tAttempt to uninstall?`n`n"
             $choice = [Microsoft.VisualBasic.Interaction]::MsgBox($msg, 'YesNo,SystemModal,Question', 'Attempt OneDrive Uninstall?')
 
             switch  ($choice) {
-                'Yes' {
-                    Write-Debug "User chose to attempt OneDrive removal"
-                    $removeOneDrive=$true
-	            }
                 'No' {
-                    Write-Debug "User chose to skip OneDrive removal"
+                    $uninstallOneDrive=$false
 	            }
             }#switch
-            Write-Host "OneDrive proccess not detected - removal skipped" -BackgroundColor Yellow -ForegroundColor Black
         }
     }
 
-    return $removeOneDrive
+    if ($uninstallOneDrive -eq $false) {
+        $not="not "
+    }
+
+    Write-Host "OneDrive uninstall will $($not)be attempted"
+
+    return $uninstallOneDrive
 }
 
 Function Stop-RestartProcess{
@@ -277,13 +275,35 @@ Function Stop-RestartProcess{
 
 }
 
-Function Restart-Process($ProcessName) {
+Function Restart-Process {
+
+    Param
+        (
+            [Parameter(Mandatory=$true)]
+            [string]$ProcessName,
+            [Parameter(Mandatory=$false)]
+            [boolean]$Retries = 0,
+            [Parameter(Mandatory=$false)]
+            [boolean]$RetryCount = 0
+        )
 
     Start-Sleep -Seconds 3
 
     $explorer = Get-Process $ProcessName -ErrorAction SilentlyContinue
     if ($explorer -eq $null) {
         Start-Process $ProcessName
+
+        Start-Sleep -Milliseconds 500
+
+        if ($Retries > 0){
+            if ($RetryCount > $Retries) {
+                Write-Host "Process '$ProcessName' could not be started after $Retries" -BackgroundColor Yellow -ForegroundColor Black
+                return
+            } else {
+                $RetryCount=$RetryCount + 1
+                Restart-Process -ProcessName $ProcessName -RetryCount $RetryCount -Retries 3
+            }
+        }
     }
 
 }

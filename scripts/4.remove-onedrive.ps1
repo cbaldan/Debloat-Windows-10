@@ -22,11 +22,6 @@ New-PSDrive HKU Registry HKEY_USERS | Out-Null
 
 #=============================================================================
 
-if (!$removeOneDrive) {
-    Write-Host "OneDrive removal skipped"
-    Return
-}
-
 Stop-RestartProcess -ProcessName OneDrive
 
 # Remove OneDrive

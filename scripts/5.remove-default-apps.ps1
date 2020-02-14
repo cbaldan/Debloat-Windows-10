@@ -17,11 +17,6 @@ New-PSDrive HKU Registry HKEY_USERS | Out-Null
 
 #=============================================================================
 
-if ($testModeEnabled) {
-    Write-Debug "testModeEnabled"
-    return
-}
-
 $apps = @(
     # default Windows 10 apps
     "Microsoft.3DBuilder"

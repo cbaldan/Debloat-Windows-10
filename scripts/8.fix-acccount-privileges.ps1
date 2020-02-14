@@ -20,7 +20,7 @@ if (Is-BuiltInAdminLoggedInUser) {
     $adminUserSid = Get-BuiltInAdminAccountSID
 	$adminUser = Get-LocalUser -SID $adminUserSid
 
-    if($testModeEnabled) {
+    if($createTestUsers) {
         Remove-UserFromAdminGroup $username
 
         Enable-LocalUser $adminUser
@@ -48,5 +48,5 @@ if (Is-BuiltInAdminLoggedInUser) {
                 }
 	        }#Yes
         }#switch
-    } #testMode
+    } #$createTestUsers
 }
