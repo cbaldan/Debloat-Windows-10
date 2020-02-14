@@ -38,6 +38,8 @@ if ($isDebloated -eq $true) {
 
         Create-WindowsDebloatedRegEntry
 
+
+        Print-MessageWithPrefix "Restricting script execution policy"
         Set-ExecutionPolicy Restricted -Scope CurrentUser
 
         Write-Host "`nWindows 10 Debloater execution complete" -BackgroundColor Green -ForegroundColor Black

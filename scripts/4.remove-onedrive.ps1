@@ -27,7 +27,7 @@ if (!$removeOneDrive) {
     Return
 }
 
-Stop-Process -name OneDrive
+Stop-RestartProcess -ProcessName OneDrive
 
 # Remove OneDrive
 if (Test-Path "$env:systemroot\System32\OneDriveSetup.exe") {
@@ -65,7 +65,7 @@ Unload-DefaultUserNtDat
 
 # Removing startmenu entry
 Remove-Item -Force -ErrorAction SilentlyContinue "$userHomeFolder\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OneDrive.lnk"
-Restart-Explorer
+Stop-RestartProcess -ProcessName explorer -RestartProcess $true
 
 # Take ownership of files to remove later
 # Uninstall process has to complete before deletion is possible

@@ -215,41 +215,75 @@ Function Remove-OneDriveCheck() {
 
     $removeOneDrive=$false
 
-    $isOneDriveRunning = Get-Process "OneDrive" -ErrorAction SilentlyContinue
-    if ($isOneDriveRunning) {
-        Write-Debug "OneDrive is runnin' happily!"
-        $removeOneDrive=$true
-    } else {
-        $oneDriveSetupRunning = Get-Process "OneDriveSetup" -ErrorAction SilentlyContinue
-        if ($oneDriveSetupRunning) {
-            Write-Host "OneDriveSetup is running" -BackgroundColor Yellow -ForegroundColor Black
+    $oneDriveSetupRunning = Get-Process "OneDriveSetup" -ErrorAction SilentlyContinue
+    if ($oneDriveSetupRunning) {
+        Write-Host "OneDriveSetup is running" -BackgroundColor Yellow -ForegroundColor Black
 
-            $msg="`nIt's not possible to uninstall OneDrive at this time because its setup is still running - it is executed on user's first login.`n`nOK:`tSkip uninstallation`nCANCEL:`tAbort script execution`n`n`n"
-            $choice = [Microsoft.VisualBasic.Interaction]::MsgBox($msg, 'OkCancel,SystemModal,Question', 'Skip OneDrive Uninstall?')
+        $msg="`nIt's not possible to uninstall OneDrive at this time because its setup is still running - it is executed on user's first login.`n`nOK:`tSkip uninstallation`nCANCEL:`tAbort script execution`n`n`n"
+        $choice = [Microsoft.VisualBasic.Interaction]::MsgBox($msg, 'OkCancel,SystemModal,Question', 'Skip OneDrive Uninstall?')
+
+        switch  ($choice) {
+            'Ok' {
+                Write-Debug "User chose to skip OneDrive removal"
+	        }
+            'Cancel' {
+                Write-Host "Debloater execution has been canceled!" -BackgroundColor Yellow -ForegroundColor Black
+                exit
+	        }
+        }#switch
+    } else {
+        $isOneDriveRunning = Get-Process "OneDrive" -ErrorAction SilentlyContinue
+        if ($isOneDriveRunning) {
+            Write-Debug "OneDrive is runnin' happily!"
+            $removeOneDrive=$true
+        } else {
+            $msg="`n`tOneDrive is not running.`t`n`tAttempt to uninstall?`n`n"
+            $choice = [Microsoft.VisualBasic.Interaction]::MsgBox($msg, 'YesNo,SystemModal,Question', 'Attempt OneDrive Uninstall?')
 
             switch  ($choice) {
-                'Ok' {
-                    $removeOneDrive=$false
-	            }#Ok
-                'Cancel' {
-                    Write-Host "Debloater execution has been canceled!" -BackgroundColor Yellow -ForegroundColor Black
-                    exit
-	            }#Cancel
+                'Yes' {
+                    Write-Debug "User chose to attempt OneDrive removal"
+                    $removeOneDrive=$true
+	            }
+                'No' {
+                    Write-Debug "User chose to skip OneDrive removal"
+	            }
             }#switch
-        }#if
+            Write-Host "OneDrive proccess not detected - removal skipped" -BackgroundColor Yellow -ForegroundColor Black
+        }
     }
 
     return $removeOneDrive
 }
 
-Function Restart-Explorer() {
+Function Stop-RestartProcess{
 
-    Stop-Process -name explorer
+    Param
+    (
+        [Parameter(Mandatory=$true)]
+        [string]$ProcessName,
+        [Parameter(Mandatory=$false)]
+        [boolean]$RestartProcess
+    )
+
+    $process = Get-Process $ProcessName -ErrorAction SilentlyContinue
+    if ($process -ne $null) {
+        Stop-Process -Name "$ProcessName" -Force
+    }
+
+    if ($RestartProcess -eq $true){
+        Restart-Process $ProcessName
+    }
+
+}
+
+Function Restart-Process($ProcessName) {
+
     Start-Sleep -Seconds 3
 
-    $explorer = Get-Process "Explorer" -ErrorAction SilentlyContinue
+    $explorer = Get-Process $ProcessName -ErrorAction SilentlyContinue
     if ($explorer -eq $null) {
-        Start-Process "explorer.exe"
+        Start-Process $ProcessName
     }
 
 }

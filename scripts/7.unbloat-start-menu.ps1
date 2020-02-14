@@ -41,7 +41,7 @@ foreach ($regAlias in $regAliases){
 }
 
 #Restart Explorer, open the start menu (necessary to load the new layout), and give it a few seconds to process
-Restart-Explorer
+Stop-RestartProcess -ProcessName explorer -RestartProcess $true
 $wshell = New-Object -ComObject wscript.shell; $wshell.SendKeys('^{ESCAPE}')
 
 #Enable the ability to pin items again by disabling "LockedStartLayout"
@@ -51,7 +51,7 @@ foreach ($regAlias in $regAliases){
     Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 0
 }
 
-Restart-Explorer
+Stop-RestartProcess -ProcessName explorer -RestartProcess $true
 
 # Make clean start menu default to all users
 Import-StartLayout -LayoutPath $layoutFile -MountPath $env:SystemDrive\

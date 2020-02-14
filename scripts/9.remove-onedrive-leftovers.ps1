@@ -21,7 +21,7 @@ if(!$removeOneDrive) {
 }
 
 #Necessary to succeed in files removal
-Restart-Explorer
+Stop-RestartProcess -ProcessName explorer -RestartProcess $true
 
 # Removing OneDrive leftovers
 foreach ($directory in (Get-ChildItem "$env:WinDir\WinSxS\*onedrive*")) {
