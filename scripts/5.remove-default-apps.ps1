@@ -60,6 +60,9 @@ $apps = @(
     "Microsoft.ScreenSketch"
     "Microsoft.YourPhone"
 	"Microsoft.XboxIdentityProvider"
+	
+	# apps which other apps depend on
+    "Microsoft.Advertising.Xaml"
 
     # apps which cannot be removed using Remove-AppxPackage
     #'Microsoft.Windows.CloudExperienceHost'
@@ -99,9 +102,6 @@ $apps = @(
     #'Windows.CBSPreview'
     #'Windows.PrintDialog'
     #'InputApp'
-
-    # apps which other apps depend on
-    "Microsoft.Advertising.Xaml"
 )
 
 foreach ($app in $apps) {
@@ -148,3 +148,9 @@ Set-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore" "AutoDownload"
 # Prevents "Suggested Applications" returning
 force-mkdir "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
 Set-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" "DisableWindowsConsumerFeatures" 1
+
+Write-Output "`nDisabling Optional Features"
+Write-Output "IE11"
+Disable-WindowsOptionalFeature -FeatureName Internet-Explorer-Optional-amd64 -Online -NoRestart | Out-Null
+Write-Output "XP Printer"
+Disable-WindowsOptionalFeature -FeatureName Printing-XPSServices-Features -Online -NoRestart | Out-Null
