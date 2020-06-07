@@ -19,26 +19,14 @@ New-PSDrive HKU Registry HKEY_USERS | Out-Null
 
 $apps = @(
     # default Windows 10 apps
-    "Microsoft.3DBuilder"
-    "Microsoft.Appconnector"
-    "Microsoft.BingFinance"
-    "Microsoft.BingNews"
-    "Microsoft.BingSports"
-    "Microsoft.BingTranslator"
     "Microsoft.BingWeather"
-    "Microsoft.GamingServices"
-    "Microsoft.Microsoft3DViewer"
     "Microsoft.MicrosoftOfficeHub"
-    "Microsoft.MicrosoftPowerBIForWindows"
-    "Microsoft.MicrosoftSolitaireCollection"
     "Microsoft.MicrosoftStickyNotes"
-    "Microsoft.MinecraftUWP"
-    "Microsoft.NetworkSpeedTest"
     "Microsoft.Office.OneNote"
     "Microsoft.OneConnect"
     "Microsoft.People"
     "Microsoft.Print3D"
-    "Microsoft.SkypeApp"
+    #"Microsoft.SkypeApp"
     "Microsoft.Wallet"
     #"Microsoft.Windows.Photos"
     "Microsoft.WindowsAlarms"
@@ -46,7 +34,6 @@ $apps = @(
     "Microsoft.WindowsCamera"
     "Microsoft.windowscommunicationsapps"
     "Microsoft.WindowsMaps"
-    "Microsoft.WindowsPhone"
     "Microsoft.WindowsSoundRecorder"
     #"Microsoft.WindowsStore"
     "Microsoft.Xbox.TCUI"
@@ -54,85 +41,64 @@ $apps = @(
     "Microsoft.XboxGameOverlay"
     "Microsoft.XboxGamingOverlay"
     "Microsoft.XboxSpeechToTextOverlay"
-    "Microsoft.YourPhone"
     "Microsoft.ZuneMusic"
     "Microsoft.ZuneVideo"
+	"Microsoft.MicrosoftSolitaireCollection"
 
     # Threshold 2 apps
-    "Microsoft.CommsPhone"
-    "Microsoft.ConnectivityStore"
     "Microsoft.GetHelp"
     "Microsoft.Getstarted"
     "Microsoft.Messaging"
-    "Microsoft.Office.Sway"
-    "Microsoft.OneConnect"
     "Microsoft.WindowsFeedbackHub"
 
     # Creators Update apps
     "Microsoft.Microsoft3DViewer"
     "Microsoft.MSPaint" # Paint 3D
 
-    #Redstone apps
-    "Microsoft.BingFoodAndDrink"
-    "Microsoft.BingHealthAndFitness"
-    "Microsoft.BingTravel"
-    "Microsoft.WindowsReadingList"
-
     # Redstone 5 apps
     "Microsoft.MixedReality.Portal"
     "Microsoft.ScreenSketch"
-    "Microsoft.XboxGamingOverlay"
     "Microsoft.YourPhone"
-
-    # non-Microsoft
-    "2FE3CB00.PicsArt-PhotoStudio"
-    "46928bounde.EclipseManager"
-    "4DF9E0F8.Netflix"
-    "613EBCEA.PolarrPhotoEditorAcademicEdition"
-    "6Wunderkinder.Wunderlist"
-    "7EE7776C.LinkedInforWindows"
-    "89006A2E.AutodeskSketchBook"
-    "9E2F88E3.Twitter"
-    "A278AB0D.DisneyMagicKingdoms"
-    "A278AB0D.MarchofEmpires"
-    "ActiproSoftwareLLC.562882FEEB491" # next one is for the Code Writer from Actipro Software LLC
-    "CAF9E577.Plex"  
-    "ClearChannelRadioDigital.iHeartRadio"
-    "D52A8D61.FarmVille2CountryEscape"
-    "D5EA27B7.Duolingo-LearnLanguagesforFree"
-    "DB6EA5DB.CyberLinkMediaSuiteEssentials"
-    "DolbyLaboratories.DolbyAccess"
-    "DolbyLaboratories.DolbyAccess"
-    "Drawboard.DrawboardPDF"
-    "Facebook.Facebook"
-    "Fitbit.FitbitCoach"
-    "Flipboard.Flipboard"
-    "GAMELOFTSA.Asphalt8Airborne"
-    "KeeperSecurityInc.Keeper"
-    "Microsoft.BingNews"
-    "NORDCURRENT.COOKINGFEVER"
-    "PandoraMediaInc.29680B314EFC2"
-    "Playtika.CaesarsSlotsFreeCasino"
-    "ShazamEntertainmentLtd.Shazam"
-    "SpotifyAB.SpotifyMusic"
-    "ThumbmunkeysLtd.PhototasticCollage"
-    "TuneIn.TuneInRadio"
-    "WinZipComputing.WinZipUniversal"
-    "XINGAG.XING"
-    "flaregamesGmbH.RoyalRevolt2"
-    "king.com.*"
-    "king.com.BubbleWitch3Saga"
-    "king.com.CandyCrushSaga"
-    "king.com.CandyCrushSodaSaga"
+	"Microsoft.XboxIdentityProvider"
 
     # apps which cannot be removed using Remove-AppxPackage
-    #"Microsoft.BioEnrollment"
-    #"Microsoft.MicrosoftEdge"
-    #"Microsoft.Windows.Cortana"
-    #"Microsoft.WindowsFeedback"
-    #"Microsoft.XboxGameCallableUI"
-    #"Microsoft.XboxIdentityProvider"
-    #"Windows.ContactSupport"
+    #'Microsoft.Windows.CloudExperienceHost'
+    #'Microsoft.AAD.BrokerPlugin'
+    #'Microsoft.Windows.StartMenuExperienceHost'
+    #'Microsoft.Windows.ShellExperienceHost'
+    #'windows.immersivecontrolpanel'
+    #'Microsoft.MicrosoftEdge'
+    #'Microsoft.Windows.Cortana'
+    #'Microsoft.Windows.ContentDeliveryManager'
+    #'1527c705-839a-4832-9118-54d4Bd6a0c89'
+    #'c5e2524a-ea46-4f67-841f-6a9465d9d515'
+    #'E2A4F912-2574-4A75-9BB0-0D023378592B'
+    #'F46D4000-FD22-4DB4-AC8E-4E1DDDE828FE'
+    #'Microsoft.AccountsControl'
+    #'Microsoft.AsyncTextService'
+    #'Microsoft.BioEnrollment'
+    #'Microsoft.CredDialogHost'
+    #'Microsoft.ECApp'
+    #'Microsoft.LockApp'
+    #'Microsoft.MicrosoftEdgeDevToolsClient'
+    #'Microsoft.PPIProjection'
+    #'Microsoft.Win32WebViewHost'
+    #'Microsoft.Windows.Apprep.ChxApp'
+    #'Microsoft.Windows.CallingShellApp'
+    #'Microsoft.Windows.CapturePicker'
+    #'Microsoft.Windows.NarratorQuickStart'
+    #'Microsoft.Windows.OOBENetworkCaptivePortal'
+    #'Microsoft.Windows.OOBENetworkConnectionFlow'
+    #'Microsoft.Windows.ParentalControls'
+    #'Microsoft.Windows.PeopleExperienceHost'
+    #'Microsoft.Windows.PinningConfirmationDialog'
+    #'Microsoft.Windows.SecHealthUI'
+    #'Microsoft.Windows.XGpuEjectDialog'
+	#'Microsoft.XboxIdentityProvider'  # Can be removed after restart
+    #'Microsoft.XboxGameCallableUI'
+    #'Windows.CBSPreview'
+    #'Windows.PrintDialog'
+    #'InputApp'
 
     # apps which other apps depend on
     "Microsoft.Advertising.Xaml"
