@@ -61,6 +61,9 @@ $apps = @(
     "Microsoft.YourPhone"
 	"Microsoft.XboxIdentityProvider"
 	
+	# 2004 Update
+	"Microsoft.549981C3F5F10" # Cortana
+
 	# apps which other apps depend on
     "Microsoft.Advertising.Xaml"
 
@@ -108,7 +111,7 @@ foreach ($app in $apps) {
     Write-Output "Trying to remove $app"
 
     try {
-        Get-AppxPackage -Name $app -AllUsers | Remove-AppxPackage -AllUsers
+        Get-AppxPackage -Name $app -AllUsers | Remove-AppxPackage
 
         Get-AppXProvisionedPackage -Online |
             Where-Object DisplayName -EQ $app |

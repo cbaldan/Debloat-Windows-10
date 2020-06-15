@@ -49,9 +49,6 @@ foreach ($profile in $profiles) {
 	Set-ItemProperty "HKU:\$profile\Control Panel\Accessibility\Keyboard Response" "Flags" "122"
 	Set-ItemProperty "HKU:\$profile\Control Panel\Accessibility\ToggleKeys" "Flags" "58"
 
-	# Numlock enabled at login
-	Set-ItemProperty "HKU:\$profile\Control Panel\Keyboard" "InitialKeyboardIndicators" 2
-
 	## Explorer cutomizations
 	#========================
 

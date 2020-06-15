@@ -24,17 +24,7 @@ $key="GlobalUserDisabled"
 New-ItemProperty $path -Name $key -PropertyType DWORD -Value 1 | Out-Null
 
 # Default profile
-# 2020-02-09: BackgroundAccessApplications does not exist in C:\Users\Default\NTUSER.DATA file,
-# thus it doesn't get copied from the default profile to new users. Looks like it's created
-# during the new user creation.
-#Load-DefaultUserNtDat
-#$userSid="DEFAULT"
-#$path="HKU:\$userSid\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications"
-#force-mkdir $path
-#New-ItemProperty $path -Name $key -PropertyType DWORD -Value 1 | Out-Null
-#Start-Sleep -Seconds 5
-#Unload-DefaultUserNtDat
-
+# 2020-02-09: BackgroundAccessApplications can't be disabled through the default profile. Bug?
 
 # Disable Microsoft Edge pre-launch
 force-mkdir "HKLM:SOFTWARE\Policies\Microsoft\MicrosoftEdge\Main"

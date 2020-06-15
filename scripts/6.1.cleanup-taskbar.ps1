@@ -21,6 +21,7 @@ $profiles = @($userSid,"DEFAULT")
 
 foreach ($profile in $profiles) {
 	# Set Cortana search box hidden from taskbar
+	force-mkdir "HKU:\$profile\Software\Microsoft\Windows\CurrentVersion\Search"
 	Set-ItemProperty "HKU:\$profile\Software\Microsoft\Windows\CurrentVersion\Search" "SearchboxTaskbarMode" 0
 
 	# Remove Cortana button from taskbar
