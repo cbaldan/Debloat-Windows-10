@@ -100,7 +100,6 @@ $apps = @(
     #'Microsoft.Windows.PinningConfirmationDialog'
     #'Microsoft.Windows.SecHealthUI'
     #'Microsoft.Windows.XGpuEjectDialog'
-	#'Microsoft.XboxIdentityProvider'  # Can be removed after restart
     #'Microsoft.XboxGameCallableUI'
     #'Windows.CBSPreview'
     #'Windows.PrintDialog'
