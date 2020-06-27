@@ -32,7 +32,7 @@ if ($isDebloated -eq $true) {
         # Taskbar
         &($PSScriptRoot+"\6.1.cleanup-taskbar.ps1")
         &($PSScriptRoot+"\7.unbloat-start-menu.ps1")
-        # Services an internal settings
+        # Services and internal settings
         &($PSScriptRoot+"\2.disable-services.ps1")
         &($PSScriptRoot+"\2.1.disable-background-apps.ps1")
         &($PSScriptRoot+"\3.optimize-windows-update.ps1")

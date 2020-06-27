@@ -154,5 +154,5 @@ Set-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" "Disab
 Write-Output "`nDisabling Optional Features"
 Write-Output "IE11"
 Disable-WindowsOptionalFeature -FeatureName Internet-Explorer-Optional-amd64 -Online -NoRestart | Out-Null
-Write-Output "XP Printer"
+Write-Output "XPS Printer"
 Disable-WindowsOptionalFeature -FeatureName Printing-XPSServices-Features -Online -NoRestart | Out-Null
