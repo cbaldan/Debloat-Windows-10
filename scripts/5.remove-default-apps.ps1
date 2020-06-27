@@ -18,24 +18,18 @@ New-PSDrive HKU Registry HKEY_USERS | Out-Null
 #=============================================================================
 
 $apps = @(
-    # default Windows 10 apps
+    # Original Windows 10 apps
     "Microsoft.BingWeather"
     "Microsoft.MicrosoftOfficeHub"
     "Microsoft.MicrosoftStickyNotes"
     "Microsoft.Office.OneNote"
-    "Microsoft.OneConnect"
     "Microsoft.People"
-    "Microsoft.Print3D"
-    #"Microsoft.SkypeApp"
     "Microsoft.Wallet"
-    #"Microsoft.Windows.Photos"
     "Microsoft.WindowsAlarms"
-    #"Microsoft.WindowsCalculator"
     "Microsoft.WindowsCamera"
     "Microsoft.windowscommunicationsapps"
     "Microsoft.WindowsMaps"
     "Microsoft.WindowsSoundRecorder"
-    #"Microsoft.WindowsStore"
     "Microsoft.Xbox.TCUI"
     "Microsoft.XboxApp"
     "Microsoft.XboxGameOverlay"
@@ -43,12 +37,11 @@ $apps = @(
     "Microsoft.XboxSpeechToTextOverlay"
     "Microsoft.ZuneMusic"
     "Microsoft.ZuneVideo"
-	"Microsoft.MicrosoftSolitaireCollection"
+    "Microsoft.MicrosoftSolitaireCollection"
 
     # Threshold 2 apps
     "Microsoft.GetHelp"
     "Microsoft.Getstarted"
-    "Microsoft.Messaging"
     "Microsoft.WindowsFeedbackHub"
 
     # Creators Update apps
@@ -59,51 +52,73 @@ $apps = @(
     "Microsoft.MixedReality.Portal"
     "Microsoft.ScreenSketch"
     "Microsoft.YourPhone"
-	"Microsoft.XboxIdentityProvider"
-	
-	# 2004 Update
-	"Microsoft.549981C3F5F10" # Cortana
+    "Microsoft.XboxIdentityProvider"
 
-	# apps which other apps depend on
+    # 2004 Update
+    "Microsoft.549981C3F5F10" # Cortana
+
+    # Advertising.Xaml has to be removed last
     "Microsoft.Advertising.Xaml"
 
+    # Kept apps
+    #"Microsoft.Windows.Photos"
+    #"Microsoft.WindowsStore"
+    #"Microsoft.DesktopAppInstaller"
+    #"Microsoft.SkypeApp"
+    #"Microsoft.WindowsCalculator"
+    #"Microsoft.WebpImageExtension"
+    #"Microsoft.WebMediaExtensions"
+    #"Microsoft.VP9VideoExtensions"
+    #"Microsoft.StorePurchaseApp"
+    #"Microsoft.HEIFImageExtension"
+    #"Microsoft.VCLibs.140.00"
+
     # apps which cannot be removed using Remove-AppxPackage
-    #'Microsoft.Windows.CloudExperienceHost'
-    #'Microsoft.AAD.BrokerPlugin'
-    #'Microsoft.Windows.StartMenuExperienceHost'
-    #'Microsoft.Windows.ShellExperienceHost'
-    #'windows.immersivecontrolpanel'
-    #'Microsoft.MicrosoftEdge'
-    #'Microsoft.Windows.Cortana'
-    #'Microsoft.Windows.ContentDeliveryManager'
-    #'1527c705-839a-4832-9118-54d4Bd6a0c89'
-    #'c5e2524a-ea46-4f67-841f-6a9465d9d515'
-    #'E2A4F912-2574-4A75-9BB0-0D023378592B'
-    #'F46D4000-FD22-4DB4-AC8E-4E1DDDE828FE'
-    #'Microsoft.AccountsControl'
-    #'Microsoft.AsyncTextService'
-    #'Microsoft.BioEnrollment'
-    #'Microsoft.CredDialogHost'
-    #'Microsoft.ECApp'
-    #'Microsoft.LockApp'
-    #'Microsoft.MicrosoftEdgeDevToolsClient'
-    #'Microsoft.PPIProjection'
-    #'Microsoft.Win32WebViewHost'
-    #'Microsoft.Windows.Apprep.ChxApp'
-    #'Microsoft.Windows.CallingShellApp'
-    #'Microsoft.Windows.CapturePicker'
-    #'Microsoft.Windows.NarratorQuickStart'
-    #'Microsoft.Windows.OOBENetworkCaptivePortal'
-    #'Microsoft.Windows.OOBENetworkConnectionFlow'
-    #'Microsoft.Windows.ParentalControls'
-    #'Microsoft.Windows.PeopleExperienceHost'
-    #'Microsoft.Windows.PinningConfirmationDialog'
-    #'Microsoft.Windows.SecHealthUI'
-    #'Microsoft.Windows.XGpuEjectDialog'
-    #'Microsoft.XboxGameCallableUI'
-    #'Windows.CBSPreview'
-    #'Windows.PrintDialog'
-    #'InputApp'
+    #"Microsoft.AAD.BrokerPlugin"
+    #"Microsoft.BioEnrollment"
+    #"Microsoft.Windows.CloudExperienceHost"
+    #"Microsoft.Windows.OOBENetworkCaptivePortal"
+    #"Microsoft.Windows.OOBENetworkConnectionFlow"
+    #"MicrosoftWindows.UndockedDevKit"
+    #"Microsoft.Windows.StartMenuExperienceHost"
+    #"Microsoft.Windows.ShellExperienceHost"
+    #"windows.immersivecontrolpanel"
+    #"Microsoft.Windows.Search"
+    #"Microsoft.VCLibs.140.00.UWPDesktop"
+    #"Microsoft.NET.Native.Framework.2.2"
+    #"Microsoft.NET.Native.Runtime.2.2"
+    #"Microsoft.MicrosoftEdge"
+    #"Microsoft.Windows.ContentDeliveryManager"
+    #"MicrosoftWindows.Client.CBS"
+    #"Microsoft.UI.Xaml.2.0"
+    #"Microsoft.NET.Native.Framework.1.7"
+    #"Microsoft.NET.Native.Runtime.1.7"
+    #"Windows.PrintDialog"
+    #"Windows.CBSPreview"
+    #"NcsiUwpApp"
+    #"Microsoft.Windows.XGpuEjectDialog"
+    #"Microsoft.Win32WebViewHost"
+    #"Microsoft.Windows.Apprep.ChxApp"
+    #"Microsoft.Windows.CapturePicker"
+    #"Microsoft.Windows.ParentalControls"
+    #"Microsoft.Windows.PinningConfirmationDialog"
+    #"Microsoft.Windows.SecHealthUI"
+    #"Microsoft.Windows.PeopleExperienceHost"
+    #"Microsoft.XboxGameCallableUI"
+    #"Microsoft.Windows.CallingShellApp"
+    #"1527c705-839a-4832-9118-54d4Bd6a0c89"
+    #"Microsoft.MicrosoftEdgeDevToolsClient"
+    #"Microsoft.LockApp"
+    #"c5e2524a-ea46-4f67-841f-6a9465d9d515"
+    #"E2A4F912-2574-4A75-9BB0-0D023378592B"
+    #"F46D4000-FD22-4DB4-AC8E-4E1DDDE828FE"
+    #"Microsoft.AccountsControl"
+    #"Microsoft.AsyncTextService"
+    #"Microsoft.Windows.NarratorQuickStart"
+    #"Microsoft.ECApp"
+    #"Microsoft.CredDialogHost"
+    #"Microsoft.Services.Store.Engagement"
+    #"Microsoft.Services.Store.Engagement" # it appears twice
 )
 
 foreach ($app in $apps) {
