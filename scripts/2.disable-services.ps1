@@ -51,6 +51,10 @@ foreach ($service in $services) {
 Write-Output "Disabling service via Registry: Delivery Optimization Service"
 Set-ItemProperty "HKLM:\System\CurrentControlSet\Services\DoSvc" "Start" 4
 
+# Note: both Passport services are needed to allow user account to setup an account PIN - "Start" 3
+# Having an account PIN is a requirement for fingerprint reader, not sure but most likely for facial
+# recognition as well.
+
 Write-Output "Disabling service via Registry: Microsoft Passport"
 Set-ItemProperty "HKLM:\System\CurrentControlSet\Services\NgcSvc" "Start" 4
 
