@@ -12,7 +12,7 @@ To see the original README.md go the original project.
 
 **First of all**, I advise to only run these scripts on a *fresh Windows 10 instllation*, right after the installation is complete.
 Things might become a bit unstable if you run in a Windows that is not healthy.
-It was thoroughly tested on Windows 10 1909, with 0 errors.
+It was thoroughly tested on Windows 10 versions 1909 and 2004, with 0 errors.
 The scripts **should** work in any Windows language, I tested in the following:
 * English (US)
 * Português (Brasil)
